@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Paddock · Agenda Interactiva</title>
+  <meta name="description" content="Agenda interactiva del evento Paddock, con detalle por sesión tipo blog."/>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css"/>
+  <style>@media print{.toolbar,.tabs,.footer{display:none!important}.card{break-inside:avoid}}</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header" role="banner" aria-label="Encabezado Paddock">
+      <img src="./assets/logo.svg" alt="Logo Paddock" class="logo" width="40" height="40"/>
+      <h1>Paddock · Agenda</h1>
+      <div class="meta">Actualizado <span id="lastUpdated"></span></div>
+    </header>
+
+    <div class="notice" role="note">Usa la búsqueda, los filtros y las pestañas por día para navegar. Entra a cada sesión para ver el detalle tipo blog.</div>
+
+    <section class="toolbar" role="region" aria-label="Filtros">
+      <input id="q" class="input" type="search" placeholder="Buscar por título, ponente, etiqueta..." aria-label="Buscar"/>
+      <select id="typeSelect" class="select" aria-label="Filtrar por tipo"><option>Todos</option></select>
+      <button class="btn" id="clearBtn" aria-label="Limpiar filtros">Limpiar</button>
+      <button class="btn" onclick="window.print()" aria-label="Imprimir o Guardar PDF">Imprimir / Guardar PDF</button>
+    </section>
+
+    <nav id="days" class="tabs" role="tablist" aria-label="Días"></nav>
+
+    <main id="agenda" class="grid" role="main" aria-live="polite"></main>
+    <p id="empty" class="notice hidden">No hay sesiones que coincidan. Prueba limpiar los filtros o elegir otro día.</p>
+
+    <footer class="footer">© <span id="year"></span> Paddock · Hecho con HTML/CSS/JS</footer>
+  </div>
+
+  <!-- Drawer de detalle -->
+  <div id="detailOverlay" class="overlay hidden" aria-hidden="true">
+    <div class="drawer" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <button class="close" id="closeDetail" aria-label="Cerrar">×</button>
+      <div class="detail-head">
+        <div class="detail-time" id="detailTime"></div>
+        <h2 id="detailTitle"></h2>
+        <div class="detail-meta">
+          <span id="detailRoom"></span>
+          <span id="detailType"></span>
+          <span id="detailSpeakers"></span>
+        </div>
+      </div>
+      <div id="detailBody" class="detail-body"></div>
+      <div id="detailMedia" class="detail-media"></div>
+      <div id="detailLinks" class="detail-links"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+  </script>
+  <script src="./script.js"></script>
+</body>
+</html>

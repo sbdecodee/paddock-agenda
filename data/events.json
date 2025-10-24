@@ -1,0 +1,70 @@
+[
+  {
+    "day": "Día 1",
+    "date": "2025-11-12",
+    "tracks": [
+      {
+        "time": "09:00",
+        "title": "Apertura & Registro",
+        "room": "Hall A",
+        "type": "General",
+        "speakers": ["Equipo Paddock"],
+        "tags": ["check-in"],
+        "slug": "apertura-registro",
+        "excerpt": "Bienvenida, acreditaciones y guía de navegación de la experiencia Paddock.",
+        "content": "# Bienvenida\n- Acreditaciones\n- Entrega de material\n- Mapa del venue y señalización\n\n*Tip:* Llega con 15 minutos de antelación."
+      },
+      {
+        "time": "10:00",
+        "title": "Keynote: Innovación en Eventos",
+        "room": "Main Stage",
+        "type": "Keynote",
+        "speakers": ["Invitado Especial"],
+        "tags": ["tendencias", "experiencia"],
+        "slug": "keynote-innovacion-eventos",
+        "excerpt": "Cómo diseñar experiencias memorables y medibles.",
+        "content": "# ¿De qué va?\nEn esta keynote veremos:\n\n- Marco de innovación\n- Casos reales\n- KPIs accionables\n\n**Bonus:** descarga de plantilla al final.",
+        "media": [
+          { "type": "image", "src": "./assets/keynote.jpg", "alt": "Escenario principal" }
+        ],
+        "links": [
+          { "label": "Descargar plantilla", "url": "https://ejemplo.com/plantilla.pdf" }
+        ]
+      }
+    ]
+  },
+  {
+    "day": "Día 2",
+    "date": "2025-11-13",
+    "tracks": [
+      {
+        "time": "09:00",
+        "title": "Panel: Producción & Tecnología",
+        "room": "Sala 2",
+        "type": "Panel",
+        "speakers": ["A. Pérez", "L. Gómez"],
+        "tags": ["producción", "tech"],
+        "slug": "panel-produccion-tecnologia",
+        "excerpt": "Qué tecnologías elevan la producción de eventos y cómo aplicarlas.",
+        "content": "## Panel\nPerspectivas prácticas sobre equipos, flujos y monitoreo en vivo.\n\n- Audio/Video\n- Integraciones interactivas\n- Escalabilidad y costos"
+      }
+    ]
+  },
+  {
+    "day": "Día 3",
+    "date": "2025-11-14",
+    "tracks": [
+      {
+        "time": "12:30",
+        "title": "Clausura & Agradecimientos",
+        "room": "Main Stage",
+        "type": "Clausura",
+        "speakers": ["Comité Paddock"],
+        "tags": ["cierre"],
+        "slug": "clausura-agradecimientos",
+        "excerpt": "Cierre oficial del evento y próximos pasos.",
+        "content": "Gracias por ser parte de **Paddock**. Compártenos tus comentarios en el formulario de cierre."
+      }
+    ]
+  }
+]

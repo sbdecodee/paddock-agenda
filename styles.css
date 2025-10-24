@@ -1,0 +1,355 @@
+/* ==========================================================
+   Paddock Agenda – Estilos Corporativos
+   Paleta: Azul principal (#0b4579), Azul acento (#53a3da),
+   Rojo énfasis (#e21019)
+   Fuente: Montserrat (Google Fonts)
+========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #f8f9fb;
+  --card: #ffffff;
+  --text: #0b4579;
+  --muted: #6c7b8a;
+  --accent: #53a3da;
+  --danger: #e21019;
+  --border: #dfe5ec;
+  --radius: 16px;
+  --shadow: 0 2px 12px rgba(11, 69, 121, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== Layout General ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  flex-wrap: wrap;
+  border-bottom: 3px solid var(--accent);
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.notice {
+  border-left: 4px solid var(--accent);
+  background: #eef6fb;
+  color: var(--text);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+/* ===== Toolbar / Filtros ===== */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 16px 0 24px;
+}
+
+.input, .select {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.input:focus, .select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(83,163,218,0.2);
+}
+
+.btn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--text);
+}
+
+/* ===== Tabs por Día ===== */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 2px 6px rgba(83,163,218,0.4);
+}
+
+/* ===== Tarjetas (Sesiones) ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.card {
+  grid-column: span 6;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(11,69,121,0.15);
+}
+
+@media (max-width: 900px) {
+  .card { grid-column: span 12; }
+}
+
+.time {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.room {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 6px 0 4px;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.title:hover {
+  color: var(--danger);
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.badge {
+  font-size: 12px;
+  background: #eef6fb;
+  border: 1px dashed var(--accent);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.excerpt {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.more {
+  margin-top: 10px;
+  display: inline-block;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.more:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ===== Drawer (Detalle tipo blog) ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,69,121,0.75);
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  z-index: 50;
+}
+
+.drawer {
+  width: min(720px, 100%);
+  background: #fff;
+  border-left: 6px solid var(--accent);
+  padding: 32px;
+  overflow: auto;
+  position: relative;
+  color: var(--text);
+  box-shadow: -6px 0 20px rgba(11,69,121,0.15);
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 30px;
+  line-height: 1;
+  background: transparent;
+  border: 0;
+  color: var(--danger);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.detail-head {
+  margin-bottom: 12px;
+}
+
+.detail-time {
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.detail-meta {
+  color: var(--muted);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-body {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.detail-body h1, h2, h3 {
+  color: var(--text);
+  margin: .6em 0;
+}
+
+.detail-body p {
+  line-height: 1.6;
+}
+
+.detail-media {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.detail-media img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.detail-links {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detail-links a {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.detail-links a:hover {
+  background: var(--text);
+}
+
+/* ===== Footer ===== */
+.footer {
+  margin: 40px 0 20px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
