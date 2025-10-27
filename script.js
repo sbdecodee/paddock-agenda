@@ -657,6 +657,8 @@ async function loadData(){
             g.photo = './assets/JUAN ARTURO.png';
           } else if(n === 'ivan sanchez'){
             g.photo = './assets/IVAN SANCHEZ.png';
+          } else if(n === 'elis jimenez'){
+            g.photo = './assets/ELIS JIMENES.png';
           }
         }
         // Reemplazar siempre por el asset local si es Federico Bangerter
