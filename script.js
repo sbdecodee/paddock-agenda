@@ -406,13 +406,13 @@ function enableSliderDrag(track){
     isDown=true; moved=false; startX=(e.touches? e.touches[0].clientX : e.clientX); startLeft=track.scrollLeft; track.classList.add('dragging'); document.body.classList.add('no-select');
   };
   const onMove = (e)=>{
-    if(!isDown) return; const x=(e.touches? e.touches[0].clientX : e.clientX); const dx=startX-x; if(Math.abs(dx)>3) moved=true; track.scrollLeft=startLeft+dx; e.preventDefault();
+    if(!isDown) return; const x=(e.touches? e.touches[0].clientX : e.clientX); const dx=startX-x; if(Math.abs(dx)>3) moved=true; track.scrollLeft=startLeft+dx; if(!e.touches) e.preventDefault();
   };
   const onUp = ()=>{ if(!isDown) return; isDown=false; track.classList.remove('dragging'); document.body.classList.remove('no-select'); if(moved){ track._suppressClickTs=Date.now(); }};
   track.addEventListener('mousedown', onDown, {passive:true});
   track.addEventListener('touchstart', onDown, {passive:true});
   window.addEventListener('mousemove', onMove, {passive:false});
-  window.addEventListener('touchmove', onMove, {passive:false});
+  window.addEventListener('touchmove', onMove, {passive:true});
   window.addEventListener('mouseup', onUp, {passive:true});
   window.addEventListener('touchend', onUp, {passive:true});
   // Cancel clicks inmediatamente despuÃ©s de un drag
@@ -448,7 +448,7 @@ function openPersonSessions(guest){
       item.append(h, el('h3','title', ev.title||''));
       if(ev.room) item.append(el('div','room', ev.room));
       const actions = el('div','foot');
-      const btnAdd = el('button','btn ghost','Agregar a Calendario');
+      const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
       btnAdd.addEventListener('click',(e)=>{ e.stopPropagation(); addToCalendar(ev); });
       actions.append(el('div','speakers', (ev.speakers||[]).join('  -  ')), btnAdd);
       item.append(actions);
@@ -491,9 +491,12 @@ function toneClassFor(ev){
 function capFirst(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
 function labelMonthDay(date){
   const dt = new Date(date);
-  const month = capFirst(dt.toLocaleDateString('es-ES',{month:'long'}));
+  // Abreviatura con punto (ej: "nov.") y capitalizar primera letra
+  let mon = dt.toLocaleDateString('es-ES',{month:'short'});
+  mon = capFirst(mon);
   const day = dt.getDate();
-  return `${month} ${day}`;
+  // Formato compacto: "Nov.2"
+  return `${mon}${day}`;
 }
 function labelLong(date){
   if(!date) return '';
@@ -561,11 +564,14 @@ function renderAgendaList(){
     const left = el('div','left');
     const title = el('h3','title', ev.title || '');
     const room = ev.room ? el('div','room', ev.room) : null;
-    left.append(el('div','time', to12h(ev.time) || ''), title);
+    const timeRow = el('div','time-row');
+    const timeEl = el('div','time', to12h(ev.time) || '');
+    timeRow.append(timeEl);
     if(room) left.append(room);
     const right = el('div','right');
     const durText = (typeof fmtDuration==='function') ? fmtDuration(ev.duration||DEFAULT_DURATION_MIN) : '';
-    if(durText) right.append(el('span','duration', durText));
+    if(durText) timeRow.append(el('span','duration time-duration', durText));
+    left.append(timeRow, title);
     head.append(left, right);
 
     // Etiquetas + resumen
@@ -576,7 +582,7 @@ function renderAgendaList(){
     const foot = el('div','foot');
     const speakers = el('div','speakers', (ev.speakers||[]).join('  -  '));
     const actions = el('div','actions');
-    const btnAdd = el('button','btn ghost','Agregar a Calendario');
+    const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
     btnAdd.addEventListener('click', (e) => { e.stopPropagation(); addToCalendar(ev); });
     actions.append(btnAdd);
     foot.append(speakers, actions);
@@ -844,4 +850,5 @@ function setupMastheadSlider(){
     }, 4500);
   }catch{}
 }
+
 

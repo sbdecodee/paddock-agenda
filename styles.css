@@ -252,7 +252,7 @@ body{
 .spacer{flex:1}
 
 /* Slider horizontal (Nuestro Equipo) */
-.slider{display:flex; gap:.75rem; overflow-x:auto; padding-bottom:.25rem; scroll-snap-type:x mandatory; -ms-overflow-style:none; scrollbar-width:none; margin-bottom:1rem; cursor:grab}
+.slider{display:flex; gap:.75rem; overflow-x:auto; padding-bottom:.25rem; scroll-snap-type:x proximity; -ms-overflow-style:none; scrollbar-width:none; margin-bottom:1rem; cursor:grab; scroll-behavior:smooth; -webkit-overflow-scrolling:touch}
 .slider.dragging{cursor:grabbing}
 .no-select, .no-select *{user-select:none}
 .slider::-webkit-scrollbar{display:none}
@@ -410,3 +410,12 @@ strong,b{ font-weight:600 }
 
 /* Spacing override: ensure visible gap between logo and greeting */
 .masthead #hello{ display:block; margin-top:80px }
+
+.btn-cal{ display:inline-flex; align-items:center; gap:6px }
+.btn-cal svg{ display:block }
+
+
+/* Tiempo + duración en la misma línea */
+.time-row{ display:flex; align-items:center; gap:.5rem; flex-wrap:nowrap }
+.time-duration{ display:inline-block; white-space:nowrap; padding:.12rem .45rem; border-radius:8px; font-size:.78rem }
+
