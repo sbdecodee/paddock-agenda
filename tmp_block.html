@@ -1,0 +1,15 @@
+﻿      Esta es la <b>Agenda principal</b>. Usa la bÃºsqueda, filtros y pestaÃ±as de dÃ­as para navegar.
+      La secciÃ³n <b>Nuestro Equipo</b> es un apoyo informativo.
+    </div>
+
+    <!-- PestaÃ±as principales (Agenda por defecto) -->
+    <nav class="tabs" role="tablist" aria-label="Secciones">
+      <button id="tab-agenda" class="tab is-active" data-tab="agenda" aria-controls="agenda" aria-selected="true">Agenda</button>
+      <button id="tab-guests" class="tab" data-tab="guests" aria-controls="guests" aria-selected="false">Nuestro Equipo</button>
+    </nav>
+
+    <!-- AGENDA (prioridad) -->
+    <section id="agenda" class="panel" role="tabpanel" aria-label="Agenda" aria-labelledby="tab-agenda">
+      <div class="toolbar">
+        <input id="search" class="input" placeholder="Buscar por tÃ­tulo, ponente o etiquetaâ€¦" aria-label="Buscar en agenda"/>
+        <select id="typeSelect" class="select" aria-label="Filtrar por tipo">

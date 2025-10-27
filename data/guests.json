@@ -1,0 +1,116 @@
+﻿[
+    {
+        "name":  "AgustÃ­n Lama",
+        "position":  "CEO",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/C4D03AQGQJ3Zklh9OZA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1622210241089?e=1762992000\u0026v=beta\u0026t=uqSnVvKfSZeR7q3bGhhvRV7pDmJcZhj7hz92pJc08lA"
+    },
+    {
+        "name":  "Avelino RodrÃ­guez",
+        "position":  "Presidente",
+        "region":  "Corporativo",
+        "home":  "DR"
+    },
+    {
+        "name":  "Juan Vargas",
+        "position":  "COO",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQGUWqQEcBeHOA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1664755924708?e=1762992000\u0026v=beta\u0026t=eNE0sRD9QvNS4foGybnM4maUII6WTul4Kzxw6CGnY3w"
+    },
+    {
+        "name":  "Juan Arturo Pimentel",
+        "position":  "CFO",
+        "region":  "Corporativo",
+        "home":  "DR"
+    },
+    {
+        "name":  "MarÃ­a Eugenia Castro",
+        "position":  "Directora Finanzas",
+        "region":  "Corporativo",
+        "home":  "DR"
+    },
+    {
+        "name":  "Praysi GarcÃ­a",
+        "position":  "Directora Mercadeo",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQEWUsf-llGCdA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718256315877?e=1762992000\u0026v=beta\u0026t=Xc_ZqDpT30AZZiieMo5rKvxsj1tHLoXrECkzLZS7_6I"
+    },
+    {
+        "name":  "Arlene Vega",
+        "position":  "Dir. Talento Humano",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/C4E03AQGyrCrJaKM1IQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1598626800503?e=1762992000\u0026v=beta\u0026t=rnIcVcShfNYixMNvJSNj1gZjaymI2_jjBRBH8ZsIGoU"
+    },
+    {
+        "name":  "Gisela Espinosa",
+        "position":  "Directora IT",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQHMHHv3tV1KdQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706582968848?e=1762992000\u0026v=beta\u0026t=wAnzhE6HAbCCAb4LYAE65OKCC8C6uRZzsQ2xHu9xRcA"
+    },
+    {
+        "name":  "Elis JimÃ©nez",
+        "position":  "Dir. Post Venta",
+        "region":  "Corporativo",
+        "home":  "DR"
+    },
+    {
+        "name":  "Rafael Ãlvarez",
+        "position":  "Dir. Post Venta",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQF56NzMpkM7xA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1698250958280?e=1762992000\u0026v=beta\u0026t=OioQKpJqo_ww2KBa70APk9Q4f6-cPvEnKtZ17MMAF2I"
+    },
+    {
+        "name":  "Grisel FernÃ¡ndez",
+        "position":  "Dir. Legal",
+        "region":  "Corporativo",
+        "home":  "DR",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQF6jQdIm4TWjQ/profile-displayphoto-shrink_800_800/B4EZPmnRtGGwAc-/0/1734740877309?e=1762992000\u0026v=beta\u0026t=L0KABIQdWry2e0SOH1_dAB4bKbbsfDs9vhjxaKCslSI"
+    },
+    {
+        "name":  "IvÃ¡n SÃ¡nchez",
+        "position":  "Gte. BI",
+        "region":  "Corporativo",
+        "home":  "USA"
+    },
+    {
+        "name":  "Erick GutiÃ©rrez",
+        "position":  "Gerente General JAM; GM COL \u0026 Dir New Business",
+        "region":  "Corporativo/COL",
+        "home":  "COL",
+        "photo":  "https://our.today/wp-content/uploads/2022/10/1603286380501.jpg"
+    },
+    {
+        "name":  "Philipp Heldt",
+        "position":  "GM Mx",
+        "region":  "MEX",
+        "home":  "MEX",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4D03AQFayYTSkEKS2g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718279354118?e=1762992000\u0026v=beta\u0026t=AnkVo-RS-Fq2locONhKbLFsvg7OwGJ_KS86qblLKGMI"
+    },
+    {
+        "name":  "Javier Lainez",
+        "position":  "GM CA",
+        "region":  "CA",
+        "home":  "GUATE",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQFuSYErYl56LA/profile-displayphoto-shrink_800_800/B4EZdV7yfYHcAc-/0/1749493426550?e=1762992000\u0026v=beta\u0026t=0_ZWtBO9oiPx1LMOZs3TVjtcVE2_4N05n8FXOkXR9sY"
+    },
+    {
+        "name":  "Federico Bangerter",
+        "position":  "GM SC",
+        "region":  "CS",
+        "home":  "UY",
+        "photo":  "https://statics.forbesuruguay.com/2025/01/crop/6788110510ed7__980x549.webp"
+    },
+    {
+        "name":  "Renato Rivas",
+        "position":  "GM SP",
+        "region":  "SP",
+        "home":  "Chile",
+        "photo":  "https://media.licdn.com/dms/image/v2/D4E03AQFgs949OPGPGQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1722481491376?e=1762992000\u0026v=beta\u0026t=1C435eNF2R1GoHou5d1ZXn_zsDo0aAFXOQb3dWR0pRo"
+    }
+]

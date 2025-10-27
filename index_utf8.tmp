@@ -20,26 +20,19 @@
 </head>
 <body>
   <div class="container">
-
-    <!-- Masthead unificado: header + notice + buscador -->
-    <section class="masthead" aria-label="Encabezado y búsqueda">
-      <header class="header hero" aria-label="Encabezado Grupo Automotriz Magna">
-        <img src="./assets/AGM - ROJO CON BLANCO.png" alt="Logo Grupo Automotriz Magna" class="logo" width="40" height="40"/>
-        <div class="header-text">
-          <div class="hello" id="hello"></div>
-        </div>
-      </header>
-
-      <div class="notice on-masthead">
-        Esta es la <b>Agenda principal</b>. Usa la búsqueda, filtros y pestañas de días para navegar.
-        La sección <b>Nuestro Equipo</b> es un apoyo informativo.
+    <section class="masthead" aria-label="Introducción y búsqueda">            <header class="header hero" aria-label="Encabezado Grupo Automotriz Magna">
+      <img src="./assets/AGM - ROJO CON BLANCO.png" alt="Logo Grupo Automotriz Magna" class="logo" width="40" height="40"/>
+      <div class="header-text">
+        <h1>Grupo Automotriz Magna · Agenda</h1>
+        <div class="hello" id="hello"></div>
+        
       </div>
+    </header>
 
-      <!-- Buscador global unificado (Equipo + Agenda) -->
-      <form id="globalSearchForm" class="toolbar" role="search" aria-label="Búsqueda general" onsubmit="event.preventDefault()">
-        <input id="globalSearch" class="input" placeholder="Buscar por nombre, sesión o etiqueta…" autocomplete="off"/>
-      </form>
-    </section>
+    <div class="notice">
+      Esta es la <b>Agenda principal</b>. Usa la búsqueda, filtros y pestañas de días para navegar.
+      La sección <b>Nuestro Equipo</b> es un apoyo informativo.
+      </div>
 
     <!-- Pestañas principales (Agenda por defecto) -->
     <nav class="tabs" role="tablist" aria-label="Secciones">
@@ -47,23 +40,27 @@
       <button id="tab-guests" class="tab" data-tab="guests" aria-controls="guests" aria-selected="false">Nuestro Equipo</button>
     </nav>
 
+    <!-- Buscador global unificado (Equipo + Agenda) -->
+    <form id="globalSearchForm" class="toolbar" role="search" aria-label="Busqueda general" onsubmit="event.preventDefault()">
+      <input id="globalSearch" class="input" placeholder="Buscar por nombre, sesion o etiqueta..." autocomplete="off"/>
+    </form>
+    </section>
     <!-- AGENDA (prioridad) -->
     <section id="agenda" class="panel" role="tabpanel" aria-label="Agenda" aria-labelledby="tab-agenda">
       <div class="row-between" style="align-items:end">
         <h2 class="section-title">Nuestro Equipo</h2>
         <small class="meta">View all</small>
       </div>
-      <p class="section-hint">Deslizar para ver más</p>
       <div class="toolbar">
-        <input id="guestSearch" class="input" placeholder="Buscar por nombre, posición o región." aria-label="Buscar en equipo"/>
+        <input id="guestSearch" class="input" placeholder="Buscar por nombre, posición o región…" aria-label="Buscar en equipo"/>
         <div class="spacer"></div>
-        <button id="guestPrev" class="btn-outline" aria-label="Anterior"><</button>
-        <button id="guestNext" class="btn-outline" aria-label="Siguiente">></button>
+        <button id="guestPrev" class="btn-outline" aria-label="Anterior">‹</button>
+        <button id="guestNext" class="btn-outline" aria-label="Siguiente">›</button>
       </div>
       <div id="guestList" class="slider" aria-label="Carrusel de equipo"></div>
       <p id="guestEmpty" class="notice hidden">Sin resultados. Ajusta tu búsqueda.</p>
       <div class="toolbar">
-        <input id="search" class="input" placeholder="Buscar por título, ponente o etiqueta." aria-label="Buscar en agenda"/>
+        <input id="search" class="input" placeholder="Buscar por título, ponente o etiqueta…" aria-label="Buscar en agenda"/>
         <select id="typeSelect" class="select" aria-label="Filtrar por tipo">
           <option value="">Todos los tipos</option>
         </select>
@@ -85,11 +82,11 @@
     <!-- INVITADOS (adicional) -->
     <section id="guests" class="panel hidden" role="tabpanel" aria-label="Nuestro Equipo" aria-labelledby="tab-guests">
       <div class="toolbar">
-        <input id="guestSearch" class="input" placeholder="Buscar por nombre, posición o región." aria-label="Buscar en equipo"/>
+        <input id="guestSearch" class="input" placeholder="Buscar por nombre, posición o región…" aria-label="Buscar en equipo"/>
       </div>
       <div class="slider-nav" aria-hidden="false" style="display:flex; gap:.5rem; justify-content:flex-end; margin:.35rem 0;">
-        <button id="guestPrev" class="btn-outline" aria-label="Anterior"><</button>
-        <button id="guestNext" class="btn-outline" aria-label="Siguiente">></button>
+        <button id="guestPrev" class="btn-outline" aria-label="Anterior">‹</button>
+        <button id="guestNext" class="btn-outline" aria-label="Siguiente">›</button>
       </div>
       <div id="guestList" class="slider" aria-label="Carrusel de equipo"></div>
       <p id="guestEmpty" class="notice hidden">Sin resultados. Ajusta tu búsqueda.</p>
@@ -101,7 +98,20 @@
   <script src="./script.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    document.getElementById("lastUpdated")?.textContent = new Date().toLocaleString();
+    document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

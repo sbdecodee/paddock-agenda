@@ -1,0 +1,21 @@
+/* ======== NUESTRO EQUIPO ======== */
+function renderGuests(list){
+  const wrap = $('#guestList');
+  wrap.innerHTML = '';
+  if(!list.length){ $('#guestEmpty').classList.remove('hidden'); return; }
+  $('#guestEmpty').classList.add('hidden');
+
+  list.forEach(g => {
+    const card = el('article','card guest tone-sand');
+    const head = el('div','card-head');
+    head.append(el('div','title', g.name || ''));
+    const badgeText = `#${(g.region||'').replace(/^#?/,'')}${g.home? ' · '+g.home : ''}`;
+    const badge = el('span','badge', badgeText.trim());
+    head.append(badge);
+
+    const meta = el('p','guest-meta', g.position || '');
+
+    card.append(head, meta);
+    wrap.append(card);
+  });
+}
