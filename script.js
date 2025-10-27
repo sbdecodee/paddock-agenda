@@ -665,6 +665,10 @@ async function loadData(){
         if(normLatin(g?.name||'') === 'federico bangerter'){
           g.photo = './assets/FEDERICO.jpg';
         }
+        // Reemplazar siempre por el asset local si es Grisel Fernández
+        if(normLatin(g?.name||'') === 'grisel fernandez'){
+          g.photo = './assets/GRISEL FERNANDEZ.png';
+        }
       });
     }catch{}
   }catch(err){
