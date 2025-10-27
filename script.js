@@ -655,6 +655,8 @@ async function loadData(){
           const n = normLatin(g?.name||'');
           if(n.startsWith('juan arturo')){
             g.photo = './assets/JUAN ARTURO.png';
+          } else if(n === 'ivan sanchez'){
+            g.photo = './assets/IVAN SANCHEZ.png';
           }
         }
         // Reemplazar siempre por el asset local si es Federico Bangerter
