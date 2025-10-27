@@ -645,6 +645,24 @@ async function loadData(){
     if(!gRes.ok || !eRes.ok) throw new Error('No se pudo cargar JSON');
     GUESTS = await gRes.json();
     EVENTS = await eRes.json();
+    // Patch local photo for Avelino and Juan Arturo if missing; override for Federico
+    try{
+      (GUESTS||[]).forEach(g=>{
+        if(normLatin(g?.name||'') === 'avelino rodriguez' && !g.photo){
+          g.photo = './assets/AVELINO RODRIGUEZ2.png';
+        }
+        if(!g.photo){
+          const n = normLatin(g?.name||'');
+          if(n.startsWith('juan arturo')){
+            g.photo = './assets/JUAN ARTURO.png';
+          }
+        }
+        // Reemplazar siempre por el asset local si es Federico Bangerter
+        if(normLatin(g?.name||'') === 'federico bangerter'){
+          g.photo = './assets/FEDERICO.jpg';
+        }
+      });
+    }catch{}
   }catch(err){
     console.error(err);
     const msg = el('div','notice', 'No fue posible cargar los datos. Revisa la conexiÃ³n o vuelve a intentar.');
@@ -852,3 +870,37 @@ function setupMastheadSlider(){
 }
 
 
+// Override: mejorar experiencia de swipe/drag del slider en mvil
+// Deja que el navegador maneje el scroll con inercia en touch;
+// solo usa drag manual para mouse.
+function enableSliderDrag(track){
+  try{
+    if(!track || track._dragEnabled) return; track._dragEnabled = true;
+    let isDown=false, startX=0, startLeft=0, moved=false, isTouch=false;
+    const onDown = (e)=>{
+      isDown=true; moved=false; isTouch = !!e.touches;
+      startX = isTouch ? e.touches[0].clientX : e.clientX;
+      startLeft = track.scrollLeft;
+      track.classList.add('dragging');
+      if(!isTouch) document.body.classList.add('no-select');
+    };
+    const onMove = (e)=>{
+      if(!isDown) return;
+      if(isTouch){
+        const x = e.touches[0].clientX; const dx = startX - x; if(Math.abs(dx)>3) moved=true; // nativo maneja el scroll
+        return;
+      }
+      const x = e.clientX; const dx = startX - x; if(Math.abs(dx)>3) moved=true; track.scrollLeft = startLeft + dx; e.preventDefault();
+    };
+    const onUp = ()=>{
+      if(!isDown) return; isDown=false; track.classList.remove('dragging'); document.body.classList.remove('no-select'); if(moved){ track._suppressClickTs=Date.now(); }
+    };
+    track.addEventListener('mousedown', onDown, {passive:true});
+    track.addEventListener('touchstart', onDown, {passive:true});
+    window.addEventListener('mousemove', onMove, {passive:false});
+    window.addEventListener('touchmove', onMove, {passive:true});
+    window.addEventListener('mouseup', onUp, {passive:true});
+    window.addEventListener('touchend', onUp, {passive:true});
+    track.addEventListener('click', (e)=>{ if(track._suppressClickTs && Date.now()-track._suppressClickTs<200){ e.preventDefault(); e.stopPropagation(); } }, true);
+  }catch{}
+}

@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: styles.css
+@@
+-.slider{display:flex; gap:.75rem; overflow-x:auto; padding-bottom:.25rem; scroll-snap-type:x proximity; -ms-overflow-style:none; scrollbar-width:none; margin-bottom:1rem; cursor:grab; scroll-behavior:smooth; -webkit-overflow-scrolling:touch}
++.slider{display:flex; gap:.75rem; overflow-x:auto; padding-bottom:.25rem; scroll-snap-type:none; -ms-overflow-style:none; scrollbar-width:none; margin-bottom:1rem; cursor:grab; scroll-behavior:smooth; -webkit-overflow-scrolling:touch}
+@@
+-.slider > .card{scroll-snap-align:start; flex:0 0 280px}
++.slider > .card{flex:0 0 280px}
+*** End Patch
