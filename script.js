@@ -6,7 +6,7 @@ const TYPE_TONES = {
   workshop: 'tone-purple',
   panel: 'tone-orange',
   general: 'tone-sand',
-  break: 'tone-sand',
+  break: 'tone-red',
   lunch: 'tone-sand',
   transfer: 'tone-sand',
   experience: 'tone-purple',
@@ -40,6 +40,23 @@ function parseISODateLocal(iso){
     if(!m) return new Date(iso);
     return new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
   }catch{ return new Date(iso); }
+}
+
+// Room display mapping
+function mapRoom(name){
+  const s = String(name||'');
+  const k = normLatin(s);
+  if(k === 'salon principal') return 'Salón Yarey';
+  if(/^hotel sheraton(,|\b)/.test(k)) return 'Salón Yarey, Hotel Sheraton';
+  return s;
+}
+
+function roomLabel(ev){
+  try{
+    const t = String(ev?.type||'').toLowerCase();
+    if(t === 'break') return 'Pit Stop';
+    return mapRoom(ev?.room||'');
+  }catch{ return mapRoom(ev?.room||''); }
 }
 // Intenta corregir mojibake tÃ­pico ("AgustÃƒÂ­n" -> "AgustÃ­n")
 function cleanText(s){
@@ -186,7 +203,7 @@ function googleCalendarUrl(ev){
 
   const text = encodeURIComponent(ev.title || 'Evento');
   const details = encodeURIComponent((ev.summary || '') + (ev.speakers?.length ? `\nPonentes: ${ev.speakers.join(', ')}` : ''));
-  const location = encodeURIComponent(ev.room || '');
+  const location = encodeURIComponent(roomLabel(ev) || '');
   return `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${start}/${end}&details=${details}&location=${location}`;
 }
 
@@ -225,7 +242,7 @@ function downloadICS(ev){
 `DTEND:${fmt(end)}\r\n`+
 `SUMMARY:${(ev.title||'Evento').replace(/\n/g,' ')}\r\n`+
 `DESCRIPTION:${descriptionText}\r\n`+
-`LOCATION:${(ev.room||'').replace(/\n/g,' ')}\r\n`+
+`LOCATION:${((roomLabel(ev)||'').replace(/\n/g,' '))}\r\n`+
 `END:VEVENT\r\n`+
 `END:VCALENDAR`;
 
@@ -454,11 +471,12 @@ function openPersonSessions(guest){
       const h = el('div','row-between');
       h.append(el('div','time', to12h(time)), el('span','badge', ev.type||''));
       item.append(h, el('h3','title', ev.title||''));
-      if(ev.room) item.append(el('div','room', ev.room));
+      const r = roomLabel(ev); if(r) item.append(el('div','room', r));
       const actions = el('div','foot');
       const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
       btnAdd.addEventListener('click',(e)=>{ e.stopPropagation(); addToCalendar(ev); });
-      actions.append(el('div','speakers', (ev.speakers||[]).join('  -  ')), btnAdd);
+      const spks = el('div','speakers', formatSpeakersText(ev.speakers||[]));
+      actions.append(spks, btnAdd);
       item.append(actions);
       body.append(item);
     });
@@ -596,7 +614,8 @@ function renderAgendaList(){
     const head = el('div','card-head');
     const left = el('div','left');
     const title = el('h3','title', ev.title || '');
-    const room = ev.room ? el('div','room', ev.room) : null;
+    const roomText = roomLabel(ev);
+    const room = roomText ? el('div','room', roomText) : null;
     const timeRow = el('div','time-row');
     const timeEl = el('div','time', to12h(ev.time) || '');
     timeRow.append(timeEl);
@@ -650,7 +669,7 @@ function openDetail(ev){
   const dateText = dateISO ? parseISODateLocal(dateISO).toLocaleDateString('es-ES',{weekday:'long', day:'2-digit', month:'long', year:'numeric'}) : '';
   const timeEl = el('div','detail-time', [dateText, range].filter(Boolean).join('  -  '));
 
-  const roomEl = el('div','detail-room', ev.room ? `Lugar: ${ev.room}` : '');
+  const roomEl = el('div','detail-room', roomLabel(ev) ? `Lugar: ${roomLabel(ev)}` : '');
   const typeEl = el('div','detail-type', ev.type ? `Tipo: ${ev.type}` : '');
   const spkEl  = el('div','detail-speakers', (ev.speakers?.length ? `Ponentes: ${formatSpeakersText(ev.speakers)}` : ''));
 
