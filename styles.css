@@ -364,10 +364,10 @@ body{
 .duration{font-size:.72rem; padding:.2rem .55rem; border-radius:999px; background:#f3f4f6; color:#111827; border:1px solid #e5e7eb}
 
 /* Tonos por tipo */
-.tone-blue{   background:linear-gradient(180deg,#eef6ff 0%,#eaf2ff 100%)}
-.tone-purple{ background:linear-gradient(180deg,#f5f3ff 0%,#ede9fe 100%)}
-.tone-orange{ background:linear-gradient(180deg,#fff3e8 0%,#ffe9d7 100%)}
-.tone-sand{   background:linear-gradient(180deg,#f9fafb 0%,#f3f4f6 100%)}
+.tone-blue{   background:linear-gradient(180deg,#d4e6f5 0%,#bdd8ee 100%); border-color:rgba(5,77,127,.28) }
+.tone-purple{ background:linear-gradient(180deg,#dcecf8 0%,#c8e0f3 100%); border-color:rgba(5,77,127,.28) }
+.tone-orange{ background:linear-gradient(180deg,#ffe6d5 0%,#ffd1b5 100%); border-color:rgba(233,33,40,.22) }
+.tone-sand{   background:linear-gradient(180deg,#f2f7fb 0%,#eaf2f8 100%)}
 
 /* Drawer (si en el futuro activas detalles) */
 .overlay{
