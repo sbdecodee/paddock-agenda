@@ -251,6 +251,31 @@ body{
 #agenda .section-title[data-agenda="1"]{ margin-top:1.75rem }
 .spacer{flex:1}
 
+/* Divisores rojos encima de "Nuestro Equipo" y "Agenda" */
+#agenda .row-between:first-child .section-title::before,
+#agenda .section-title[data-agenda="1"]::before{
+  content:"";
+  display:block;
+  height:2px;
+  width:90%;
+  background:#e92128;
+  border-radius:2px;
+  margin:1.25rem auto 1.25rem;
+}
+
+/* Más margen inferior solo para la línea de "Nuestro Equipo" */
+#agenda .row-between:first-child .section-title::before{
+  margin:1.25rem auto 2rem;
+}
+
+/* Más margen superior e inferior para la línea de "Agenda" */
+#agenda .section-title[data-agenda="1"]::before{
+  margin:2rem auto 2rem;
+}
+
+/* Asegurar que el h2 ocupe el ancho del contenedor dentro del flex para centrar la línea */
+#agenda .row-between:first-child .section-title{ flex:0 0 100%; width:100%; }
+
 /* Slider horizontal (Nuestro Equipo) */
 .slider{display:flex; gap:.75rem; overflow-x:auto; padding-bottom:.25rem; scroll-snap-type:none; -ms-overflow-style:none; scrollbar-width:none; margin-bottom:1rem; cursor:grab; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; touch-action:pan-x; overscroll-behavior-x:contain}
 .slider.dragging{cursor:grabbing}
