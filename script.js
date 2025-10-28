@@ -554,10 +554,29 @@ function renderAgendaList(){
   // Ordenar por hora ascendente
   items.sort((a,b)=> (a.time||'').localeCompare(b.time||''));
 
+  const now = new Date();
   items.forEach(ev => {
     const tone = toneClassFor(ev);
     const card = el('article','card pill time-card clickable '+tone);
     const node = el('span','node');
+    // Estado temporal del punto (default rojo; near naranja; live verde; past rojo)
+    try{
+      const dateISO = getEventDate(ev);
+      if(dateISO && ev.time){
+        const [h,m] = ev.time.slice(0,5).split(':').map(Number);
+        const start = new Date(`${dateISO}T${pad2(h)}:${pad2(m)}:00`);
+        const minutes = Number(ev.duration||DEFAULT_DURATION_MIN);
+        const end = new Date(start.getTime() + minutes*60000);
+        const msToStart = start.getTime() - now.getTime();
+        if(now >= start && now <= end){
+          node.classList.add('is-live');
+        } else if(msToStart > 0 && msToStart <= 24*60*60*1000){
+          node.classList.add('is-near');
+        } else if(now > end){
+          node.classList.add('is-past');
+        }
+      }
+    }catch{}
 
     // Cabecera: hora + tÃ­tulo
     const head = el('div','card-head');
@@ -669,7 +688,19 @@ async function loadData(){
         if(normLatin(g?.name||'') === 'grisel fernandez'){
           g.photo = './assets/GRISEL FERNANDEZ.png';
         }
+        // Reemplazar siempre por el asset local si es María Eugenia Castro
+        if(normLatin(g?.name||'') === 'maria eugenia castro'){
+          g.photo = './assets/María Eugenia Castro.jpg';
+        }
       });
+      // Agregar tarjeta para Ricardo Tejeda si no existe, justo después de Juan Arturo Pimentel
+      const hasRicardo = (GUESTS||[]).some(g => normLatin(g?.name||'') === 'ricardo tejeda');
+      if(!hasRicardo){
+        const ricardo = { name: 'Ricardo Tejeda', position: 'Operations Director', photo: './assets/Ricardo Tejeda.jpg' };
+        const idxJuanArturo = (GUESTS||[]).findIndex(g => normLatin(g?.name||'') === 'juan arturo pimentel');
+        if(idxJuanArturo >= 0){ GUESTS.splice(idxJuanArturo + 1, 0, ricardo); }
+        else { GUESTS.push(ricardo); }
+      }
     }catch{}
   }catch(err){
     console.error(err);

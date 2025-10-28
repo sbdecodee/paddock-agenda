@@ -336,7 +336,27 @@ body{
 }
 .time-card .node{ /* punto sobre el eje */
   position:absolute; left:-30px; top:20px; width:12px; height:12px; border-radius:999px;
-  background:var(--brand-2); box-shadow:0 0 0 4px rgba(83,163,218,.18);
+  /* Estado por defecto: rojo marca */
+  color:#e92128; background:currentColor; box-shadow:0 0 0 4px rgba(233,33,40,.18);
+  transition: background-color .25s ease, box-shadow .25s ease, color .25s ease;
+}
+/* Estados temporales */
+.time-card .node.is-near{ color:#f59e0b; box-shadow:0 0 0 4px rgba(245,158,11,.20) }
+.time-card .node.is-live{ color:#10b981; box-shadow:0 0 0 4px rgba(16,185,129,.22) }
+.time-card .node.is-past{ color:#e92128; box-shadow:0 0 0 4px rgba(233,33,40,.14) }
+
+/* Efecto flow (pulso) solo en near/live) */
+.time-card .node::after{ content:none }
+.time-card .node.is-near::after,
+.time-card .node.is-live::after{
+  content:""; position:absolute; inset:-4px; border-radius:inherit; background:currentColor; opacity:.28;
+  animation: flow 1.8s ease-out infinite;
+}
+
+@keyframes flow{
+  0%{ transform:scale(1); opacity:.28 }
+  70%{ transform:scale(1.9); opacity:0 }
+  100%{ transform:scale(1.9); opacity:0 }
 }
 .card.pill{border-radius:20px; padding:1rem}
 
