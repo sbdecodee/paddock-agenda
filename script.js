@@ -665,7 +665,7 @@ function openDetail(ev){
   const [h,m] = (ev.time||'00:00').slice(0,5).split(':').map(Number);
   const start = dateISO ? (()=>{ const b=parseISODateLocal(dateISO); return new Date(b.getFullYear(), b.getMonth(), b.getDate(), h||0, m||0, 0); })() : null;
   const end = start ? new Date(start.getTime() + Number(ev.duration||DEFAULT_DURATION_MIN)*60000) : null;
-  const range = start && end ? `${to12h(ev.time)} â€” ${to12h(`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}` : to12h(ev.time);
+  const range = start && end ? `${to12h(ev.time)} - ${to12h(`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}` : to12h(ev.time);
   const dateText = dateISO ? parseISODateLocal(dateISO).toLocaleDateString('es-ES',{weekday:'long', day:'2-digit', month:'long', year:'numeric'}) : '';
   const timeEl = el('div','detail-time', [dateText, range].filter(Boolean).join('  -  '));
 
@@ -870,7 +870,7 @@ function showNamePrompt(){
   // Texto superior (fuera del box)
   const lead = el('div','welcome-lead');
   const greet = el('h3','welcome-greet','Bienvenido/a');
-  const sub = el('p','welcome-sub','Queremos hacer tu experiencia mucho más personalizada. Esperamos que puedas disfrutarlo tanto como nosotros');
+  const sub = el('p','welcome-sub','Queremos hacer tu experiencia más personalizada y que disfrutes este evento tanto como nosotros.');
   lead.append(greet, sub);
   const title = el('h1','welcome-title','¿Cómo te llamas?');
   const input = document.createElement('input');
