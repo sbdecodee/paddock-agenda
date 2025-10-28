@@ -23,8 +23,7 @@
   { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "22:15", "duration": 30, "title": "Traslado / regreso al hotel", "speakers": ["Todos los participantes"], "type": "transfer" },
 
   { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:15", "duration": 15, "title": "Llegada y ubicación de participantes", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:30", "duration": 5,  "title": "Bienvenida y apertura del día 2", "speakers": ["Avelino Rodríguez", "Presidente"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:35", "duration": 5,  "title": "Presentación", "speakers": ["Javier Galán"], "type": "general" },
+  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:30", "duration": 10,  "title": "Bienvenida y apertura del día 2", "speakers": ["Avelino Rodríguez", "Arlene Vega"], "type": "general" },
   { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:40", "duration": 125, "title": "Taller: Conduciendo al Liderazgo", "speakers": ["Javier Galán"], "type": "workshop" },
   { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "10:45", "duration": 15,  "title": "Coffee Break", "speakers": ["Todos los participantes"], "type": "break" },
   { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "11:00", "duration": 120, "title": "Taller: Conduciendo al Liderazgo (continuación)", "speakers": ["Javier Galán"], "type": "workshop" },
@@ -42,8 +41,8 @@
 
   { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "09:15", "duration": 15,  "title": "Abordaje autobús y salida hacia club de playa Hemingway", "speakers": ["MS Eventos"], "type": "general" },
   { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "09:30", "duration": 60,  "title": "Tránsito hacia club de playa", "speakers": ["Todos los participantes", "MS Eventos"], "type": "transfer" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "10:30", "duration": 360, "title": "Almuerzo y disfrute de la playa", "speakers": ["MS Eventos"], "type": "experience" },
+  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "10:30", "duration": 360, "title": "Disfrute de la playa & almuerzo.", "speakers": ["Todos los participantes", "MS Eventos"], "type": "experience" },
   { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "16:30", "duration": 15,  "title": "Abordaje autobús y salida hacia el hotel", "speakers": ["Todos los participantes"], "type": "general" },
   { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "16:45", "duration": 90,  "title": "Traslado a la ciudad y llegada al hotel", "speakers": ["Todos los participantes", "MS Eventos"], "type": "transfer" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "18:15", "duration": 285, "title": "Noche libre", "speakers": ["Todos los participantes"], "type": "general" }
+  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "18:15", "duration": 285, "title": "Llegada al hotel y noche libre", "speakers": ["Todos los participantes"], "type": "general" }
 ]

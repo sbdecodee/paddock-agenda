@@ -48,6 +48,7 @@ function mapRoom(name){
   const k = normLatin(s);
   if(k === 'salon principal') return 'Salón Yarey';
   if(/^hotel sheraton(,|\b)/.test(k)) return 'Salón Yarey, Hotel Sheraton';
+  if(k === 'restaurante del hotel') return 'Área de almuerzo';
   return s;
 }
 
@@ -55,8 +56,35 @@ function roomLabel(ev){
   try{
     const t = String(ev?.type||'').toLowerCase();
     if(t === 'break') return 'Pit Stop';
+    if(t === 'lunch') return mapRoom(ev?.room||'Área de almuerzo');
+    // Fallback específico para "Llegada y ubicación de participantes" sin room definido (p. ej., Día 2)
+    const titleNK = normLatin(ev?.title||'');
+    if(!ev?.room && /llegada y ubicaci/.test(titleNK)){
+      return 'Salón Yarey, Hotel Sheraton';
+    }
     return mapRoom(ev?.room||'');
   }catch{ return mapRoom(ev?.room||''); }
+}
+
+// Limpia títulos específicos: quitar países entre paréntesis para South Pacific / Southern Cone
+function mapTitle(evOrTitle){
+  const s = (evOrTitle && evOrTitle.title) ? String(evOrTitle.title||'') : String(evOrTitle||'');
+  // Clean parenthetical countries for these regional titles only
+  let out = s.replace(/^(South Pacific|Southern Cone)\s*\([^)]*\)\s*$/i, '$1');
+  out = out.replace(/^(Centroam(?:é|e)rica)\s*\([^)]*\)\s*$/i, 'Centroamérica');
+  // Remove explicit "(continuación)" note if present
+  out = out.replace(/\s*\(continuaci(?:[óo])n\)\s*/ig, ' ');
+  out = out.replace(/\s{2,}/g,' ').trim();
+  return out;
+}
+
+// Decide si ocultar la duración en la tarjeta principal
+function hideDurationFor(ev){
+  try{
+    const t = normLatin(mapTitle(ev));
+    if(t.includes('noche libre')) return true;
+  }catch{}
+  return false;
 }
 // Intenta corregir mojibake tÃ­pico ("AgustÃƒÂ­n" -> "AgustÃ­n")
 function cleanText(s){
@@ -470,7 +498,7 @@ function openPersonSessions(guest){
       const item = el('article','card');
       const h = el('div','row-between');
       h.append(el('div','time', to12h(time)), el('span','badge', ev.type||''));
-      item.append(h, el('h3','title', ev.title||''));
+      item.append(h, el('h3','title', mapTitle(ev)||''));
       const r = roomLabel(ev); if(r) item.append(el('div','room', r));
       const actions = el('div','foot');
       const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
@@ -613,7 +641,7 @@ function renderAgendaList(){
     // Cabecera: hora + tÃ­tulo
     const head = el('div','card-head');
     const left = el('div','left');
-    const title = el('h3','title', ev.title || '');
+    const title = el('h3','title', mapTitle(ev) || '');
     const roomText = roomLabel(ev);
     const room = roomText ? el('div','room', roomText) : null;
     const timeRow = el('div','time-row');
@@ -622,7 +650,7 @@ function renderAgendaList(){
     if(room) left.append(room);
     const right = el('div','right');
     const durText = (typeof fmtDuration==='function') ? fmtDuration(ev.duration||DEFAULT_DURATION_MIN) : '';
-    if(durText) timeRow.append(el('span','duration time-duration', durText));
+    if(durText && !hideDurationFor(ev)) timeRow.append(el('span','duration time-duration', durText));
     left.append(timeRow, title);
     head.append(left, right);
 
@@ -658,7 +686,7 @@ function openDetail(ev){
   closeBtn.addEventListener('click', () => document.body.removeChild(overlay));
 
   const head = el('div','detail-head');
-  const title = el('h3',null, ev.title || 'Detalle');
+  const title = el('h3',null, mapTitle(ev) || 'Detalle');
 
   // tiempo y fecha amigable
   const dateISO = getEventDate(ev);
