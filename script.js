@@ -688,6 +688,10 @@ async function loadData(){
         if(normLatin(g?.name||'') === 'grisel fernandez'){
           g.photo = './assets/GRISEL FERNANDEZ.png';
         }
+        // Reemplazar siempre por el asset local si es Erick Gutiérrez
+        if(normLatin(g?.name||'') === 'erick gutierrez'){
+          g.photo = './assets/ERICK.jpg';
+        }
         // Reemplazar siempre por el asset local si es María Eugenia Castro
         if(normLatin(g?.name||'') === 'maria eugenia castro'){
           g.photo = './assets/María Eugenia Castro.jpg';
