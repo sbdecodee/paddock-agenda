@@ -33,6 +33,14 @@ const $$ = (s, c=document) => Array.from(c.querySelectorAll(s));
 const el = (t, cls, txt) => { const n=document.createElement(t); if(cls) n.className=cls; if(txt!==undefined) n.textContent=txt; return n; };
 const norm = s => (s||"").toString().toLowerCase();
 const pad2 = n => (n<10? '0'+n : ''+n);
+// Parse 'YYYY-MM-DD' as local date to avoid TZ shifting to previous day
+function parseISODateLocal(iso){
+  try{
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso||''));
+    if(!m) return new Date(iso);
+    return new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
+  }catch{ return new Date(iso); }
+}
 // Intenta corregir mojibake tÃ­pico ("AgustÃƒÂ­n" -> "AgustÃ­n")
 function cleanText(s){
   const str = String(s||'');
@@ -490,7 +498,7 @@ function toneClassFor(ev){
 
 function capFirst(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
 function labelMonthDay(date){
-  const dt = new Date(date);
+  const dt = parseISODateLocal(date);
   // Abreviatura con punto (ej: "nov.") y capitalizar primera letra
   let mon = dt.toLocaleDateString('es-ES',{month:'short'});
   mon = capFirst(mon);
@@ -500,8 +508,13 @@ function labelMonthDay(date){
 }
 function labelLong(date){
   if(!date) return '';
-  const dt = new Date(date);
-  try{ return capFirst(dt.toLocaleDateString('es-ES',{weekday:'long', day:'2-digit', month:'long', year:'numeric'})); }
+  const dt = parseISODateLocal(date);
+  try{
+    let s = dt.toLocaleDateString('es-ES',{weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+    // Quitar la coma después del día de la semana: "domingo, 02 de ..." -> "domingo 02 de ..."
+    s = s.replace(/^([^,]+),\s*/, '$1 ');
+    return capFirst(s);
+  }
   catch{ return date; }
 }
 // Duraciones legibles para las tarjetas
@@ -564,7 +577,8 @@ function renderAgendaList(){
       const dateISO = getEventDate(ev);
       if(dateISO && ev.time){
         const [h,m] = ev.time.slice(0,5).split(':').map(Number);
-        const start = new Date(`${dateISO}T${pad2(h)}:${pad2(m)}:00`);
+        const base = parseISODateLocal(dateISO);
+        const start = new Date(base.getFullYear(), base.getMonth(), base.getDate(), h||0, m||0, 0);
         const minutes = Number(ev.duration||DEFAULT_DURATION_MIN);
         const end = new Date(start.getTime() + minutes*60000);
         const msToStart = start.getTime() - now.getTime();
@@ -599,7 +613,7 @@ function renderAgendaList(){
 
     // Pie: ponentes + acciones (Google / ICS)
     const foot = el('div','foot');
-    const speakers = el('div','speakers', (ev.speakers||[]).join('  -  '));
+    const speakers = el('div','speakers', formatSpeakersText(ev.speakers||[]));
     const actions = el('div','actions');
     const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
     btnAdd.addEventListener('click', (e) => { e.stopPropagation(); addToCalendar(ev); });
@@ -630,15 +644,15 @@ function openDetail(ev){
   // tiempo y fecha amigable
   const dateISO = getEventDate(ev);
   const [h,m] = (ev.time||'00:00').slice(0,5).split(':').map(Number);
-  const start = dateISO ? new Date(`${dateISO}T${pad2(h)}:${pad2(m)}:00`) : null;
+  const start = dateISO ? (()=>{ const b=parseISODateLocal(dateISO); return new Date(b.getFullYear(), b.getMonth(), b.getDate(), h||0, m||0, 0); })() : null;
   const end = start ? new Date(start.getTime() + Number(ev.duration||DEFAULT_DURATION_MIN)*60000) : null;
   const range = start && end ? `${to12h(ev.time)} â€” ${to12h(`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}` : to12h(ev.time);
-  const dateText = dateISO ? new Date(dateISO).toLocaleDateString('es-ES',{weekday:'long', day:'2-digit', month:'long', year:'numeric'}) : '';
+  const dateText = dateISO ? parseISODateLocal(dateISO).toLocaleDateString('es-ES',{weekday:'long', day:'2-digit', month:'long', year:'numeric'}) : '';
   const timeEl = el('div','detail-time', [dateText, range].filter(Boolean).join('  -  '));
 
   const roomEl = el('div','detail-room', ev.room ? `Lugar: ${ev.room}` : '');
   const typeEl = el('div','detail-type', ev.type ? `Tipo: ${ev.type}` : '');
-  const spkEl  = el('div','detail-speakers', (ev.speakers?.length ? `Ponentes: ${ev.speakers.join(', ')}` : ''));
+  const spkEl  = el('div','detail-speakers', (ev.speakers?.length ? `Ponentes: ${formatSpeakersText(ev.speakers)}` : ''));
 
   head.append(title, timeEl, roomEl, typeEl, spkEl);
 
@@ -657,9 +671,11 @@ function openDetail(ev){
 /* ======== INIT ======== */
 async function loadData(){
   try{
+    const VER = 'v3';
+    const reqOpts = { cache: 'no-store' };
     const [gRes, eRes] = await Promise.all([
-      fetch('./data/guests.json'),
-      fetch('./data/events.json')
+      fetch(`./data/guests.json?${VER}`, reqOpts),
+      fetch(`./data/events.json?${VER}`, reqOpts)
     ]);
     if(!gRes.ok || !eRes.ok) throw new Error('No se pudo cargar JSON');
     GUESTS = await gRes.json();
@@ -691,10 +707,43 @@ async function loadData(){
         // Reemplazar siempre por el asset local si es Erick Gutiérrez
         if(normLatin(g?.name||'') === 'erick gutierrez'){
           g.photo = './assets/ERICK.jpg';
+          g.position = 'Gerente General Colombia\nDirector de Nuevos Negocios';
         }
         // Reemplazar siempre por el asset local si es María Eugenia Castro
         if(normLatin(g?.name||'') === 'maria eugenia castro'){
           g.photo = './assets/María Eugenia Castro.jpg';
+        }
+        // Ajuste de cargo: Arlene Vega
+        if(normLatin(g?.name||'') === 'arlene vega'){
+          g.position = 'Directora de Talento Humano';
+        }
+        // Ajustes de cargo solicitados
+        if(normLatin(g?.name||'') === 'elis jimenez'){
+          g.position = 'Director de Post Venta';
+        }
+        if(normLatin(g?.name||'') === 'rafael alvarez'){
+          g.position = 'Director de Post Venta';
+        }
+        if(normLatin(g?.name||'') === 'grisel fernandez'){
+          g.position = 'Directora Legal';
+        }
+        if(normLatin(g?.name||'') === 'avelino rodriguez'){
+          g.position = 'Presidente Corporativo';
+        }
+        if(normLatin(g?.name||'') === 'ivan sanchez'){
+          g.position = 'Gerente BI';
+        }
+        if(normLatin(g?.name||'') === 'philipp heldt'){
+          g.position = 'Gerente General México';
+        }
+        if(normLatin(g?.name||'') === 'javier lainez'){
+          g.position = 'Gerente General Centroamérica';
+        }
+        if(normLatin(g?.name||'') === 'federico bangerter'){
+          g.position = 'Gerente General Southern Cone';
+        }
+        if(normLatin(g?.name||'') === 'renato rivas'){
+          g.position = 'Gerente General South Pacific';
         }
       });
       // Agregar tarjeta para Ricardo Tejeda si no existe, justo después de Juan Arturo Pimentel
@@ -823,6 +872,51 @@ function showNamePrompt(){
   save.addEventListener('click', doSave);
   input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); doSave(); }});
   setTimeout(()=> input.focus(), 0);
+}
+
+// Map rápido de nombre normalizado -> posición/cargo (después de overrides)
+function buildRoleMap(){
+  const map = new Map();
+  try{
+    (GUESTS||[]).forEach(g=>{
+      const k = normLatin(g?.name||''); if(k) map.set(k, g.position||'');
+    });
+  }catch{}
+  return map;
+}
+
+// Formatea speakers usando cargos actualizados cuando hay match por nombre
+function formatSpeakersText(arr){
+  const out = [];
+  const rolesOld = new Set(['presidente','ceo','coo','cfo','directora','director','gm','gte.','gte. bi','gerente']);
+  const roleMap = buildRoleMap();
+  const a = Array.isArray(arr) ? arr : [];
+  const stripParens = (s)=> String(s||'').replace(/\s*\([^)]*\)\s*/g,' ').replace(/\s{2,}/g,' ').trim();
+  for(let i=0;i<a.length;i++){
+    const sRaw = a[i]||'';
+    const nameClean = stripParens(sRaw);
+    let cargo = '';
+    let matched = '';
+    // 1) Match exact por mapa
+    const kExact = normLatin(nameClean);
+    if(roleMap.has(kExact)){ cargo = roleMap.get(kExact)||''; matched = kExact; }
+    // 2) Fuzzy match usando matchPerson si no hubo exact
+    if(!cargo){
+      try{
+        for(const g of (GUESTS||[])){
+          if(matchPerson(nameClean, g?.name||'')) { cargo = g?.position||''; matched = normLatin(g?.name||''); break; }
+        }
+      }catch{}
+    }
+    // Construir etiqueta preferida como "Nombre (Cargo)"
+    const label = cleanText(nameClean) + (cargo ? ` (${cargo})` : '');
+    out.push(label);
+    // Si el siguiente token es un cargo antiguo, saltarlo
+    const next = String(a[i+1]||'');
+    const nk = normLatin(next);
+    if(rolesOld.has(nk)) i++;
+  }
+  return out.join('  -  ');
 }
 
 // Intro transition: blue screen + figures crossfade

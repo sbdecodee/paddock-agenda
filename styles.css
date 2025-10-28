@@ -308,6 +308,7 @@ body{
 .cover-overlay{position:absolute; left:0; right:0; bottom:0; padding:14px 14px 18px; color:#fff; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 52%, rgba(0,0,0,.88) 100%); z-index:1}
 .cover-name{margin:0 0 2px; font-size:1.06rem; font-weight:700}
 .cover-role,.cover-loc{margin:0; font-size:.9rem; color:#e5e7eb}
+.cover-role{ white-space:pre-line }
 .cover-footer{margin-top:.8rem; display:flex; align-items:center; justify-content:space-between; gap:.5rem}
 .btn-soft{padding:.48rem .9rem; border-radius:999px; background:rgba(255,255,255,.98); color:#0f172a; border:1px solid rgba(255,255,255,.9); font-weight:700}
 .on-dark{color:#f8fafc}
@@ -335,7 +336,7 @@ body{
 .chips{display:flex; gap:.35rem; flex-wrap:wrap; margin:.25rem 0}
 .chip{font-size:.74rem; padding:.16rem .55rem; border-radius:999px; background:#eef5fb; border:1px solid #d5e7f7}
 
-.foot{display:flex; gap:.5rem; align-items:center; justify-content:space-between; flex-wrap:wrap}
+.foot{display:grid; gap:.5rem; align-items:start; justify-content:start}
 .speakers{color:#334155; font-size:.95rem}
 .room{color:#64748b; font-size:.85rem}
 
