@@ -404,6 +404,18 @@ body{
 .tone-red .chip{ background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.28); color:#fff }
 .tone-red .badge{ background:rgba(255,255,255,.16); color:#fff; border-color:rgba(255,255,255,.28) }
 .tone-red .duration{ background:rgba(255,255,255,.16); color:#fff; border-color:rgba(255,255,255,.32) }
+/* Brand-blue card (Foto de grupo) */
+.tone-brand{ background:linear-gradient(180deg, #054d7f 0%, #043d65 100%); border-color: rgba(5,77,127,.35); color:#fff }
+.tone-brand .title,
+.tone-brand .room,
+.tone-brand .summary,
+.tone-brand .time,
+.tone-brand .speakers{ color:#fff }
+.tone-brand .chip{ background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.28); color:#fff }
+.tone-brand .badge{ background:rgba(255,255,255,.16); color:#fff; border-color:rgba(255,255,255,.28) }
+.tone-brand .duration{ background:rgba(255,255,255,.16); color:#fff; border-color:rgba(255,255,255,.32) }
+.tone-brand .btn-cal{ background:#e92128; border-color:#e92128; color:#fff }
+.tone-brand .btn-cal:hover{ background:#fff; color:#e92128; border-color:#e92128 }
 
 /* Drawer (si en el futuro activas detalles) */
 .overlay{

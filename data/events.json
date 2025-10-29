@@ -1,48 +1,529 @@
-[
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "08:15", "duration": 15, "title": "Llegada y ubicación de participantes", "summary": "Ubicar sus lugares.", "speakers": ["Todos los participantes"], "room": "Hotel Sheraton, Santo Domingo", "type": "general", "tags": ["Logística"] },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "08:30", "duration": 5,  "title": "Bienvenida y apertura de la reunión", "speakers": ["Praysi García"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "08:35", "duration": 10, "title": "Propósito y expectativas de la jornada", "speakers": ["Avelino Rodríguez", "Presidente"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "08:45", "duration": 25, "title": "Visión, estrategias y oportunidades para 2026", "speakers": ["Agustín Lama", "CEO"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "09:10", "duration": 60, "title": "Logros 2025 y prioridades 2026 por región y país", "speakers": ["Juan Vargas", "Juan A. Pimentel (COO/CFO)"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "10:10", "duration": 20, "title": "Panel: visión, estrategias y prioridades propuestas", "speakers": ["Moderador", "Todos los presentes"], "room": "Salón principal", "type": "panel" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "10:30", "duration": 15, "title": "Foto de grupo & Coffee Break", "speakers": ["Todos los participantes"], "room": "Área de coffee", "type": "break" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "10:45", "duration": 45, "title": "República Dominicana", "speakers": ["Juan Vargas"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "11:30", "duration": 30, "title": "Jamaica", "speakers": ["Erick Gutiérrez"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "12:00", "duration": 60, "title": "Almuerzo", "speakers": ["Todos los participantes"], "room": "Restaurante del hotel", "type": "lunch" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "13:00", "duration": 30, "title": "México", "speakers": ["Philipp Heldt"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "13:30", "duration": 30, "title": "Centroamérica (Guatemala, El Salvador, Costa Rica)", "speakers": ["Javier Lainez"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "14:00", "duration": 30, "title": "Colombia", "speakers": ["Erick Gutiérrez"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "14:30", "duration": 15, "title": "Coffee Break", "speakers": ["Todos los participantes"], "room": "Área de coffee", "type": "break" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "14:45", "duration": 30, "title": "South Pacific (Chile, Perú)", "speakers": ["Renato Rivas"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "15:15", "duration": 45, "title": "Southern Cone (Uruguay, Bolivia, Argentina)", "speakers": ["Federico Bangerter"], "room": "Salón principal", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "16:00", "duration": 15, "title": "Recap del día: prioridades del negocio 2026", "speakers": ["Avelino Rodríguez"], "room": "Salón principal", "type": "recap" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "16:15", "duration": 90, "title": "Tiempo libre", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "19:15", "duration": 5,  "title": "Reunión en lobby y salida hacia venue (cena de grupo)", "speakers": ["Todos los participantes"], "room": "Lobby del hotel", "type": "general" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "19:15", "duration": 30, "title": "Traslado hacia Makoto", "speakers": ["Todos los participantes", "MS Eventos"], "type": "transfer" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "19:45", "duration": 150, "title": "Cena de grupo en Makoto", "speakers": ["MS Eventos"], "type": "experience", "room": "Makoto" },
-  { "day": "Día 1 - Lunes 3 de noviembre", "date": "2025-11-03", "time": "22:15", "duration": 30, "title": "Traslado / regreso al hotel", "speakers": ["Todos los participantes"], "type": "transfer" },
-
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:15", "duration": 15, "title": "Llegada y ubicación de participantes", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:30", "duration": 10,  "title": "Bienvenida y apertura del día 2", "speakers": ["Avelino Rodríguez", "Arlene Vega"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "08:40", "duration": 125, "title": "Taller: Conduciendo al Liderazgo", "speakers": ["Javier Galán"], "type": "workshop" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "10:45", "duration": 15,  "title": "Coffee Break", "speakers": ["Todos los participantes"], "type": "break" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "11:00", "duration": 120, "title": "Taller: Conduciendo al Liderazgo (continuación)", "speakers": ["Javier Galán"], "type": "workshop" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "13:00", "duration": 75,  "title": "Almuerzo", "speakers": ["Todos los participantes"], "type": "lunch" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "14:15", "duration": 60,  "title": "Taller: Conduciendo al Liderazgo (cierre)", "speakers": ["Javier Galán"], "type": "workshop" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "15:15", "duration": 15,  "title": "Coffee Break", "speakers": ["Todos los participantes"], "type": "break" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "15:30", "duration": 120, "title": "Mesa de trabajo: Gestión de Talento en Magna", "speakers": ["Arlene Vega"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "17:30", "duration": 30,  "title": "Cierre y compromiso", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "18:00", "duration": 15,  "title": "Recap del día: la importancia del Talento para el negocio", "speakers": ["Avelino Rodríguez"], "type": "recap" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "18:15", "duration": 90,  "title": "Tiempo libre", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "19:15", "duration": 5,   "title": "Reunión en lobby y salida hacia experiencia de grupo", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "19:15", "duration": 30,  "title": "Traslado hacia Hotel Kimpton", "speakers": ["Todos los participantes", "MS Eventos"], "type": "transfer" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "19:45", "duration": 150, "title": "Experiencia: Tabaco & Ron", "speakers": ["Kimpton", "MS Eventos"], "type": "experience" },
-  { "day": "Día 2 - Martes 4 de noviembre", "date": "2025-11-04", "time": "22:15", "duration": 30,  "title": "Traslado / regreso al hotel", "speakers": ["Todos los participantes"], "type": "transfer" },
-
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "09:15", "duration": 15,  "title": "Abordaje autobús y salida hacia club de playa Hemingway", "speakers": ["MS Eventos"], "type": "general" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "09:30", "duration": 60,  "title": "Tránsito hacia club de playa", "speakers": ["Todos los participantes", "MS Eventos"], "type": "transfer" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "10:30", "duration": 360, "title": "Disfrute de la playa & almuerzo.", "speakers": ["Todos los participantes", "MS Eventos"], "type": "experience" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "16:30", "duration": 15,  "title": "Abordaje autobús y salida hacia el hotel", "speakers": ["Todos los participantes"], "type": "general" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "16:45", "duration": 90,  "title": "Traslado a la ciudad y llegada al hotel", "speakers": ["Todos los participantes", "MS Eventos"], "type": "transfer" },
-  { "day": "Día 3 - Miércoles 5 de noviembre", "date": "2025-11-05", "time": "18:15", "duration": 285, "title": "Llegada al hotel y noche libre", "speakers": ["Todos los participantes"], "type": "general" }
+﻿[
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "08:15",
+        "duration":  15,
+        "title":  "Llegada y ubicaciÃ³n de participantes",
+        "summary":  "Ubicar sus lugares.",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "room":  "Hotel Sheraton, Santo Domingo",
+        "type":  "general",
+        "tags":  [
+                     "LogÃ­stica"
+                 ]
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "08:30",
+        "duration":  10,
+        "title":  "Bienvenida y apertura de la reuniÃ³n",
+        "speakers":  [
+                         "Praysi GarcÃ­a"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "08:40",
+        "duration":  10,
+        "title":  "PropÃ³sito y expectativas de la jornada",
+        "speakers":  [
+                         "Avelino RodrÃ­guez",
+                         "Presidente"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "08:50",
+        "duration":  40,
+        "title":  "VisiÃ³n, estrategias y oportunidades para 2026",
+        "speakers":  [
+                         "AgustÃ­n Lama",
+                         "CEO"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "09:30",
+        "duration":  60,
+        "title":  "Logros 2025 y prioridades 2026 por regiÃ³n y paÃ­s",
+        "speakers":  [
+                         "Juan Vargas",
+                         "Juan A. Pimentel (COO/CFO)"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "10:30",
+        "duration":  30,
+        "title":  "Panel: visiÃ³n, estrategias y prioridades propuestas",
+        "speakers":  [
+                         "Moderador",
+                         "Todos los presentes"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "panel"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "11:00",
+        "duration":  15,
+        "title":  "Coffee Break",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "room":  "Ãrea de coffee",
+        "type":  "break"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "11:15",
+        "duration":  45,
+        "title":  "RepÃºblica Dominicana",
+        "speakers":  [
+                         "Juan Vargas"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "12:00",
+        "duration":  30,
+        "title":  "Jamaica",
+        "speakers":  [
+                         "Erick GutiÃ©rrez"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "Día 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "12:30",
+        "duration":  15,
+        "title":  "Foto de grupo",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "12:45",
+        "duration":  60,
+        "title":  "Almuerzo",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "room":  "Restaurante del hotel",
+        "type":  "lunch"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "13:45",
+        "duration":  45,
+        "title":  "MÃ©xico",
+        "speakers":  [
+                         "Philipp Heldt"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "14:30",
+        "duration":  45,
+        "title":  "CentroamÃ©rica (Guatemala, El Salvador, Costa Rica)",
+        "speakers":  [
+                         "Javier Lainez"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "15:15",
+        "duration":  30,
+        "title":  "Colombia",
+        "speakers":  [
+                         "Erick GutiÃ©rrez"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "15:45",
+        "duration":  15,
+        "title":  "Coffee Break",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "room":  "Ãrea de coffee",
+        "type":  "break"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "16:00",
+        "duration":  30,
+        "title":  "South Pacific (Chile, PerÃº)",
+        "speakers":  [
+                         "Renato Rivas"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "16:30",
+        "duration":  45,
+        "title":  "Southern Cone (Uruguay, Bolivia, Argentina)",
+        "speakers":  [
+                         "Federico Bangerter"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "17:15",
+        "duration":  15,
+        "title":  "Recap del dÃ­a: prioridades del negocio 2026",
+        "speakers":  [
+                         "Avelino RodrÃ­guez"
+                     ],
+        "room":  "SalÃ³n principal",
+        "type":  "recap"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "17:30",
+        "duration":  150,
+        "title":  "Tiempo libre",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "20:00",
+        "duration":  5,
+        "title":  "ReuniÃ³n en lobby y salida hacia venue (cena de grupo)",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "room":  "Lobby del hotel",
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "20:05",
+        "duration":  30,
+        "title":  "Traslado hacia Makoto",
+        "speakers":  [
+                         "Todos los participantes",
+                         "MS Eventos"
+                     ],
+        "type":  "transfer"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "20:35",
+        "duration":  150,
+        "title":  "Cena de grupo en Makoto",
+        "speakers":  [
+                         "MS Eventos"
+                     ],
+        "type":  "experience",
+        "room":  "Makoto"
+    },
+    {
+        "day":  "DÃ­a 1 - Lunes 3 de noviembre",
+        "date":  "2025-11-03",
+        "time":  "23:05",
+        "duration":  30,
+        "title":  "Traslado / regreso al hotel",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "transfer"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "08:15",
+        "duration":  15,
+        "title":  "Llegada y ubicaciÃ³n de participantes",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general",
+        "room":  "Salón Yarey, Hotel Sheraton"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "08:30",
+        "duration":  10,
+        "title":  "Bienvenida y apertura del dÃ­a 2",
+        "speakers":  [
+                         "Avelino RodrÃ­guez",
+                         "Arlene Vega"
+                     ],
+        "type":  "general",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "08:40",
+        "duration":  140,
+        "title":  "Taller: Conduciendo al Liderazgo",
+        "speakers":  [
+                         "Javier GalÃ¡n"
+                     ],
+        "type":  "workshop",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "11:00",
+        "duration":  15,
+        "title":  "Coffee Break",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "break"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "11:15",
+        "duration":  120,
+        "title":  "Taller: Conduciendo al Liderazgo (continuaciÃ³n)",
+        "speakers":  [
+                         "Javier GalÃ¡n"
+                     ],
+        "type":  "workshop",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "13:15",
+        "duration":  60,
+        "title":  "Almuerzo",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "lunch"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "14:15",
+        "duration":  75,
+        "title":  "Taller: Conduciendo al Liderazgo (cierre)",
+        "speakers":  [
+                         "Javier GalÃ¡n"
+                     ],
+        "type":  "workshop",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "16:45",
+        "duration":  15,
+        "title":  "Coffee Break",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "break"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "15:30",
+        "duration":  75,
+        "title":  "Mesa de trabajo: GestiÃ³n de Talento en Magna",
+        "speakers":  [
+                         "Arlene Vega"
+                     ],
+        "type":  "general",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "17:00",
+        "duration":  30,
+        "title":  "Cierre y compromiso",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "17:30",
+        "duration":  15,
+        "title":  "Recap del dÃ­a: la importancia del Talento para el negocio",
+        "speakers":  [
+                         "Avelino RodrÃ­guez"
+                     ],
+        "type":  "recap",
+        "room":  "Salón principal"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "17:45",
+        "duration":  90,
+        "title":  "Tiempo libre",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "19:30",
+        "duration":  5,
+        "title":  "ReuniÃ³n en lobby y salida hacia experiencia de grupo",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "19:35",
+        "duration":  15,
+        "title":  "Traslado hacia Hotel Kimpton",
+        "speakers":  [
+                         "Todos los participantes",
+                         "MS Eventos"
+                     ],
+        "type":  "transfer"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "19:50",
+        "duration":  160,
+        "title":  "Experiencia: Tabaco \u0026 Ron",
+        "speakers":  [
+                         "Kimpton",
+                         "MS Eventos"
+                     ],
+        "type":  "experience"
+    },
+    {
+        "day":  "DÃ­a 2 - Martes 4 de noviembre",
+        "date":  "2025-11-04",
+        "time":  "22:30",
+        "duration":  30,
+        "title":  "Traslado / regreso al hotel",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "transfer"
+    },
+    {
+        "day":  "DÃ­a 3 - MiÃ©rcoles 5 de noviembre",
+        "date":  "2025-11-05",
+        "time":  "09:15",
+        "duration":  15,
+        "title":  "Encuentro en el lobby y abordaje autobús para salida a club Hemingway",
+        "speakers":  [
+                         "MS Eventos"
+                     ],
+        "type":  "general",
+        "room":  "Lobby del hotel"
+    },
+    {
+        "day":  "DÃ­a 3 - MiÃ©rcoles 5 de noviembre",
+        "date":  "2025-11-05",
+        "time":  "09:30",
+        "duration":  60,
+        "title":  "Salida a club Hemingway",
+        "speakers":  [
+                         "Todos los participantes",
+                         "MS Eventos"
+                     ],
+        "type":  "transfer"
+    },
+    {
+        "day":  "DÃ­a 3 - MiÃ©rcoles 5 de noviembre",
+        "date":  "2025-11-05",
+        "time":  "10:30",
+        "duration":  360,
+        "title":  "Disfrute de la playa \u0026 almuerzo.",
+        "speakers":  [
+                         "Todos los participantes",
+                         "MS Eventos"
+                     ],
+        "type":  "experience"
+    },
+    {
+        "day":  "DÃ­a 3 - MiÃ©rcoles 5 de noviembre",
+        "date":  "2025-11-05",
+        "time":  "16:30",
+        "duration":  60,
+        "title":  "Traslado a la ciudad y llegada al hotel",
+        "speakers":  [
+                         "Todos los participantes",
+                         "MS Eventos"
+                     ],
+        "type":  "transfer"
+    },
+    {
+        "day":  "DÃ­a 3 - MiÃ©rcoles 5 de noviembre",
+        "date":  "2025-11-05",
+        "time":  "17:30",
+        "duration":  285,
+        "title":  "Llegada al hotel y noche libre",
+        "speakers":  [
+                         "Todos los participantes"
+                     ],
+        "type":  "general"
+    }
 ]

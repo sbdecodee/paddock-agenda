@@ -7,7 +7,7 @@ const TYPE_TONES = {
   panel: 'tone-orange',
   general: 'tone-sand',
   break: 'tone-red',
-  lunch: 'tone-sand',
+  lunch: 'tone-red',
   transfer: 'tone-sand',
   experience: 'tone-purple',
   recap: 'tone-orange',
@@ -68,7 +68,9 @@ function roomLabel(ev){
 
 // Limpia títulos específicos: quitar países entre paréntesis para South Pacific / Southern Cone
 function mapTitle(evOrTitle){
-  const s = (evOrTitle && evOrTitle.title) ? String(evOrTitle.title||'') : String(evOrTitle||'');
+  const sRaw = (evOrTitle && evOrTitle.title) ? String(evOrTitle.title||'') : String(evOrTitle||'');
+  // Sanear primero por posibles mojibake y luego aplicar reglas
+  const s = cleanText(sRaw);
   // Clean parenthetical countries for these regional titles only
   let out = s.replace(/^(South Pacific|Southern Cone)\s*\([^)]*\)\s*$/i, '$1');
   out = out.replace(/^(Centroam(?:é|e)rica)\s*\([^)]*\)\s*$/i, 'Centroamérica');
@@ -498,7 +500,7 @@ function openPersonSessions(guest){
       const item = el('article','card');
       const h = el('div','row-between');
       h.append(el('div','time', to12h(time)), el('span','badge', ev.type||''));
-      item.append(h, el('h3','title', mapTitle(ev)||''));
+      item.append(h, el('h3','title', cleanText(mapTitle(ev)||'')));
       const r = roomLabel(ev); if(r) item.append(el('div','room', r));
       const actions = el('div','foot');
       const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
@@ -538,6 +540,10 @@ function groupByDay(events){
   return map;
 }
 function toneClassFor(ev){
+  try{
+    const titleNK = normLatin(mapTitle(ev||{}));
+    if(titleNK === 'foto de grupo') return 'tone-brand';
+  }catch{}
   const key = norm(ev.type || '');
   return TYPE_TONES[key] || TYPE_TONES.default;
 }
@@ -641,7 +647,7 @@ function renderAgendaList(){
     // Cabecera: hora + tÃ­tulo
     const head = el('div','card-head');
     const left = el('div','left');
-    const title = el('h3','title', mapTitle(ev) || '');
+    const title = el('h3','title', cleanText(mapTitle(ev) || ''));
     const roomText = roomLabel(ev);
     const room = roomText ? el('div','room', roomText) : null;
     const timeRow = el('div','time-row');
@@ -655,12 +661,23 @@ function renderAgendaList(){
     head.append(left, right);
 
     // Etiquetas + resumen
-    const chips = el('div','chips'); (ev.tags||[]).forEach(t => chips.append(el('span','chip', t)));
-    const body  = el('p','summary', ev.summary || '');
+    const chips = el('div','chips');
+    try{
+      let list = Array.isArray(ev.tags) ? ev.tags.slice() : [];
+      // Ocultar el chip "Logística" únicamente para la tarjeta de "Llegada y ubicación de participantes"
+      const titleNK = normLatin(mapTitle(ev));
+      if(titleNK.includes('llegada y ubicaci')){
+        list = list.filter(t => normLatin(t) !== 'logistica');
+      }
+      list.forEach(t => chips.append(el('span','chip', cleanText(t))));
+    }catch{
+      (ev.tags||[]).forEach(t => chips.append(el('span','chip', t)));
+    }
+    const body  = el('p','summary', cleanText(ev.summary || ''));
 
     // Pie: ponentes + acciones (Google / ICS)
     const foot = el('div','foot');
-    const speakers = el('div','speakers', formatSpeakersText(ev.speakers||[]));
+    const speakers = el('div','speakers', formatSpeakersText(ev.speakers||[], ev));
     const actions = el('div','actions');
     const btnAdd = (()=>{ const b=el('button','btn ghost btn-cal'); b.setAttribute('aria-label','Agregar a Calendario'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="11" x2="21" y2="11"/></svg>'; return b; })();
     btnAdd.addEventListener('click', (e) => { e.stopPropagation(); addToCalendar(ev); });
@@ -686,7 +703,7 @@ function openDetail(ev){
   closeBtn.addEventListener('click', () => document.body.removeChild(overlay));
 
   const head = el('div','detail-head');
-  const title = el('h3',null, mapTitle(ev) || 'Detalle');
+  const title = el('h3',null, cleanText(mapTitle(ev) || 'Detalle'));
 
   // tiempo y fecha amigable
   const dateISO = getEventDate(ev);
@@ -704,7 +721,7 @@ function openDetail(ev){
   head.append(title, timeEl, roomEl, typeEl, spkEl);
 
   const body = el('div','detail-body');
-  if(ev.summary) body.append(el('p',null, ev.summary));
+  if(ev.summary) body.append(el('p',null, cleanText(ev.summary)));
 
   // Adjuntos removidos por requerimiento
 
@@ -718,15 +735,14 @@ function openDetail(ev){
 /* ======== INIT ======== */
 async function loadData(){
   try{
-    const VER = 'v3';
-    const reqOpts = { cache: 'no-store' };
     const [gRes, eRes] = await Promise.all([
-      fetch(`./data/guests.json?${VER}`, reqOpts),
-      fetch(`./data/events.json?${VER}`, reqOpts)
+      fetch('./data/guests.json'),
+      fetch('./data/events.json')
     ]);
     if(!gRes.ok || !eRes.ok) throw new Error('No se pudo cargar JSON');
     GUESTS = await gRes.json();
     EVENTS = await eRes.json();
+    // Nota: los horarios ya están ajustados directamente en data/events.json
     // Patch local photo for Avelino and Juan Arturo if missing; override for Federico
     try{
       (GUESTS||[]).forEach(g=>{
@@ -933,7 +949,7 @@ function buildRoleMap(){
 }
 
 // Formatea speakers usando cargos actualizados cuando hay match por nombre
-function formatSpeakersText(arr){
+function formatSpeakersText(arr, ev){
   const out = [];
   const rolesOld = new Set(['presidente','ceo','coo','cfo','directora','director','gm','gte.','gte. bi','gerente']);
   const roleMap = buildRoleMap();
@@ -955,15 +971,24 @@ function formatSpeakersText(arr){
         }
       }catch{}
     }
-    // Construir etiqueta preferida como "Nombre (Cargo)"
-    const label = cleanText(nameClean) + (cargo ? ` (${cargo})` : '');
+    // Override SOLO para la tarjeta de "Jamaica" en la agenda (no afecta otros contextos)
+    try{
+      if(ev){
+        const titleNK = normLatin(mapTitle(ev));
+        if(titleNK === 'jamaica' && kExact === 'erick gutierrez'){
+          cargo = 'Gerente General interino';
+        }
+      }
+    }catch{}
+    // Construir etiqueta como "Nombre, Cargo" (sin paréntesis)
+    const label = cleanText(nameClean) + (cargo ? `, ${cargo}` : '');
     out.push(label);
     // Si el siguiente token es un cargo antiguo, saltarlo
     const next = String(a[i+1]||'');
     const nk = normLatin(next);
     if(rolesOld.has(nk)) i++;
   }
-  return out.join('  -  ');
+  return out.join(' - ');
 }
 
 // Intro transition: blue screen + figures crossfade
@@ -1088,3 +1113,4 @@ function enableSliderDrag(track){
     track.addEventListener('click', (e)=>{ if(track._suppressClickTs && Date.now()-track._suppressClickTs<200){ e.preventDefault(); e.stopPropagation(); } }, true);
   }catch{}
 }
+
