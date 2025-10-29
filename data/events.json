@@ -142,7 +142,7 @@
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
         "time":  "13:45",
-        "duration":  45,
+        "duration":  30,
         "title":  "MÃ©xico",
         "speakers":  [
                          "Philipp Heldt"
@@ -153,8 +153,8 @@
     {
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
-        "time":  "14:30",
-        "duration":  45,
+        "time":  "14:15",
+        "duration":  60,
         "title":  "CentroamÃ©rica (Guatemala, El Salvador, Costa Rica)",
         "speakers":  [
                          "Javier Lainez"
@@ -226,7 +226,7 @@
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
         "time":  "17:30",
-        "duration":  150,
+        "duration":  105,
         "title":  "Tiempo libre",
         "speakers":  [
                          "Todos los participantes"
@@ -236,7 +236,7 @@
     {
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
-        "time":  "20:00",
+        "time":  "19:15",
         "duration":  5,
         "title":  "ReuniÃ³n en lobby y salida hacia venue (cena de grupo)",
         "speakers":  [
@@ -248,8 +248,8 @@
     {
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
-        "time":  "20:05",
-        "duration":  30,
+        "time":  "19:20",
+        "duration":  25,
         "title":  "Traslado hacia Makoto",
         "speakers":  [
                          "Todos los participantes",
@@ -260,8 +260,8 @@
     {
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
-        "time":  "20:35",
-        "duration":  150,
+        "time":  "19:45",
+        "duration":  165,
         "title":  "Cena de grupo en Makoto",
         "speakers":  [
                          "MS Eventos"
@@ -272,8 +272,8 @@
     {
         "day":  "DÃ­a 1 - Lunes 3 de noviembre",
         "date":  "2025-11-03",
-        "time":  "23:05",
-        "duration":  30,
+        "time":  "22:30",
+        "duration":  15,
         "title":  "Traslado / regreso al hotel",
         "speakers":  [
                          "Todos los participantes"
@@ -355,7 +355,7 @@
         "day":  "DÃ­a 2 - Martes 4 de noviembre",
         "date":  "2025-11-04",
         "time":  "14:15",
-        "duration":  75,
+        "duration":  60,
         "title":  "Taller: Conduciendo al Liderazgo (cierre)",
         "speakers":  [
                          "Javier GalÃ¡n"
@@ -377,8 +377,8 @@
     {
         "day":  "DÃ­a 2 - Martes 4 de noviembre",
         "date":  "2025-11-04",
-        "time":  "15:30",
-        "duration":  75,
+        "time":  "15:15",
+        "duration":  90,
         "title":  "Mesa de trabajo: GestiÃ³n de Talento en Magna",
         "speakers":  [
                          "Arlene Vega"
@@ -414,7 +414,7 @@
         "day":  "DÃ­a 2 - Martes 4 de noviembre",
         "date":  "2025-11-04",
         "time":  "17:45",
-        "duration":  90,
+        "duration":  105,
         "title":  "Tiempo libre",
         "speakers":  [
                          "Todos los participantes"
