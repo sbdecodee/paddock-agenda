@@ -778,7 +778,7 @@ async function loadData(){
         }
         // Ajuste de cargo: Arlene Vega
         if(normLatin(g?.name||'') === 'arlene vega'){
-          g.position = 'Directora de Talento Humano';
+          g.position = 'Directora de Gestión Humana';
         }
         // Ajustes de cargo solicitados
         if(normLatin(g?.name||'') === 'elis jimenez'){
