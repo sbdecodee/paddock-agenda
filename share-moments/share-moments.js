@@ -262,18 +262,15 @@
     try {
       let res;
       if (IS_APPS_SCRIPT) {
-        // Send JSON with dataUrl to avoid multipart parsing issues
-        const dataUrl = await fileToDataUrl(file);
-        res = await fetch(`${API_BASE}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: file.name, mimeType: file.type || 'image/jpeg', dataUrl })
-        });
+        // Use simple request (multipart/form-data) to avoid CORS preflight
+        const fd = new FormData();
+        fd.append('photo', file, file.name);
+        res = await fetch(`${API_BASE}`, { method: 'POST', body: fd });
       } else {
         const fd = new FormData();
         fd.append('photo', file, file.name);
         const uploadUrl = `${API_BASE}/upload`;
-        res = await fetch(uploadUrl, { method: 'POST', body: fd, mode: 'cors' });
+        res = await fetch(uploadUrl, { method: 'POST', body: fd });
       }
       if (!res.ok) throw new Error('upload failed');
       const data = await res.json();
