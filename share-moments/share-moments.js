@@ -6,7 +6,9 @@
   }
   const NS = 'sm';
   const CSS_ID = 'share-moments-styles';
-  const API_BASE = '/api/moments';
+  // Allow overriding API via global (for Google Apps Script or custom backends)
+  const API_BASE = (typeof window !== 'undefined' && window.SM_API_BASE) ? window.SM_API_BASE : '/api/moments';
+  const IS_APPS_SCRIPT = /script\.googleusercontent\.com|script\.google\.com/.test(String(API_BASE));
   const ASSETS_BASE = '/assets/moments';
   const POLL_MS = 15000;
 
@@ -260,7 +262,9 @@
     try {
       const fd = new FormData();
       fd.append('photo', file, file.name);
-      const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
+      // Apps Script expects POST to the base endpoint (no /upload)
+      const uploadUrl = IS_APPS_SCRIPT ? `${API_BASE}` : `${API_BASE}/upload`;
+      const res = await fetch(uploadUrl, { method: 'POST', body: fd, mode: 'cors' });
       if (!res.ok) throw new Error('upload failed');
       const data = await res.json();
       if (data && data.file) {
@@ -297,7 +301,15 @@
     img.src = src;
     img.addEventListener('click', () => openLightbox(grid.closest('section'), src));
     const a = el.querySelector('a');
-    a.href = src;
+    // Prefer a direct download link for Google Drive sources
+    let dl = src;
+    try {
+      const m = src.match(/drive\.google\.com\/uc\?[^#]*\bid=([^&#]+)/);
+      if (m && m[1]) {
+        dl = `https://drive.google.com/uc?export=download&id=${m[1]}`;
+      }
+    } catch (_) { /* ignore */ }
+    a.href = dl;
     a.download = name || '';
     if (!downloadable) a.setAttribute('tabindex', '-1');
     grid.prepend(el);
@@ -342,7 +354,27 @@
 
   function startPolling(panel) {
     const grid = panel.querySelector(`#${NS}-grid`);
-    setInterval(() => { refreshFromServer(grid); }, POLL_MS);
+    const interval = IS_APPS_SCRIPT ? 3000 : POLL_MS;
+    setInterval(() => { refreshFromServer(grid); }, interval);
+  }
+
+  function connectStream(panel) {
+    if (IS_APPS_SCRIPT) return; // Apps Script no soporta SSE
+    try {
+      const es = new EventSource(`${API_BASE}/stream`);
+      const grid = panel.querySelector(`#${NS}-grid`);
+      es.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data || '{}');
+          if (data && data.file) {
+            // Avoid duplicates
+            const exists = grid.querySelector(`.${NS}-item[data-src="${CSS.escape(data.file)}"]`);
+            if (!exists) addToGrid(grid, { src: data.file, downloadable: true, name: data.file.split('/').pop() });
+          }
+        } catch (_) {}
+      };
+      es.onerror = () => { try { es.close(); } catch(_){}; /* fallback stays with polling */ };
+    } catch (_) { /* ignore */ }
   }
 
   function applyAgendaHeadingStyle(panel){
@@ -509,6 +541,7 @@
     setupHandlers(panel, built);
     loadInitial(panel);
     startPolling(panel);
+    connectStream(panel);
     // Apply heading style after insertion and after next frame
     setTimeout(() => applyAgendaHeadingStyle(panel), 0);
     requestAnimationFrame(() => applyAgendaHeadingStyle(panel));

@@ -44,11 +44,34 @@ app.get('/api/moments', (_req, res) => {
 app.post('/api/moments/upload', upload.single('photo'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'no_file' });
   const url = `/assets/moments/${encodeURIComponent(req.file.filename)}`;
+  // Broadcast to SSE subscribers
+  broadcastNew(`${req.protocol}://${req.get('host')}${url}`);
   res.json({ ok: true, file: url });
 });
+
+// Simple ping
+app.get('/api/moments/ping', (_req, res) => res.json({ ok: true }));
+
+// SSE stream for realtime updates
+const clients = new Set();
+app.get('/api/moments/stream', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders?.();
+  res.write(': connected\n\n');
+  clients.add(res);
+  req.on('close', () => { clients.delete(res); });
+});
+
+function broadcastNew(absoluteUrl) {
+  const msg = JSON.stringify({ type: 'new', file: absoluteUrl });
+  for (const res of clients) {
+    try { res.write(`data: ${msg}\n\n`); } catch { /* ignore */ }
+  }
+}
 
 const port = process.env.PORT || 5052;
 app.listen(port, () => {
   console.log(`ShareMoments server running on http://localhost:${port}`);
 });
-
