@@ -5,6 +5,9 @@ const ASSETS = [
   './styles.css',
   './script.js',
   './assets/logo.svg',
+  './assets/icons/icon-180.png',
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png',
   './data/events.json',
   './data/guests.json'
 ];
@@ -41,4 +44,3 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-
