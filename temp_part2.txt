@@ -1,0 +1,220 @@
+    const onFiles = async (e) => {
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        await handleFile(panel, file);
+      }
+      e.target.value = '';
+    };
+
+    fileCam.addEventListener('change', onFiles);
+    fileGal.addEventListener('change', onFiles);
+
+    if (controls) {
+      // Header chooser buttons
+      controls.btnCam.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        controls.chooser.classList.remove('open');
+        fileCam.click();
+      });
+      controls.btnGal.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        controls.chooser.classList.remove('open');
+        fileGal.click();
+      });
+    }
+  }
+
+  async function handleFile(panel, file) {
+    const grid = panel.querySelector(`#${NS}-grid`);
+    const tempUrl = URL.createObjectURL(file);
+    const { el, img } = addToGrid(grid, { src: tempUrl, downloadable: true, name: file.name });
+
+    // Try server upload first
+    try {
+      const fd = new FormData();
+      fd.append('photo', file, file.name);
+      const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
+      if (!res.ok) throw new Error('upload failed');
+      const data = await res.json();
+      if (data && data.file) {
+        img.src = data.file; // replace temp with server URL
+        el.dataset.src = data.file;
+        return;
+      }
+      throw new Error('bad response');
+    } catch (_) {
+      // Fallback to local IndexedDB so user still sees it
+      try {
+        const b64 = await fileToDataUrl(file);
+        await idb.add({ dataUrl: b64, createdAt: Date.now(), name: file.name });
+      } catch (_) { /* ignore */ }
+    }
+  }
+
+  function addToGrid(grid, { src, downloadable, name }) {
+    const el = document.createElement('div');
+    el.className = `${NS}-item`;
+    el.dataset.src = src;
+    el.innerHTML = `
+      <img alt="Momento" loading="lazy">
+      <div class="${NS}-overlay">
+        <a class="${NS}-iconbtn" download>Descargar</a>
+      </div>
+    `;
+    const img = el.querySelector('img');
+    img.src = src;
+    img.addEventListener('click', () => openLightbox(grid.closest('section'), src));
+    const a = el.querySelector('a');
+    a.href = src;
+    a.download = name || '';
+    if (!downloadable) a.setAttribute('tabindex', '-1');
+    grid.prepend(el);
+    return { el, img };
+  }
+
+  function openLightbox(panel, src) {
+    const lb = panel.querySelector(`.${NS}-lightbox`);
+    const img = lb.querySelector('img');
+    img.src = src;
+    lb.classList.add('open');
+  }
+
+  async function loadInitial(panel) {
+    const grid = panel.querySelector(`#${NS}-grid`);
+    // Try server list first
+    const serverOk = await refreshFromServer(grid);
+    if (!serverOk) {
+      // Load from local fallback
+      const list = await idb.all();
+      list.sort((a,b) => (b.createdAt||0)-(a.createdAt||0));
+      list.forEach(p => addToGrid(grid, { src: p.dataUrl, downloadable: true, name: p.name }));
+    }
+  }
+
+  async function refreshFromServer(grid) {
+    try {
+      const res = await fetch(`${API_BASE}`);
+      if (!res.ok) throw new Error('list failed');
+      const data = await res.json();
+      if (!data || !Array.isArray(data.files)) throw new Error('bad response');
+      // Clear and repopulate from server list
+      grid.innerHTML = '';
+      for (const path of data.files) {
+        addToGrid(grid, { src: path, downloadable: true, name: path.split('/').pop() });
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function startPolling(panel) {
+    const grid = panel.querySelector(`#${NS}-grid`);
+    setInterval(() => { refreshFromServer(grid); }, POLL_MS);
+  }
+
+  function applyAgendaHeadingStyle(panel){
+    try {
+      let title = panel.querySelector(`#${NS}-title`);
+      if (!title) return;
+      const norm = (t) => (t || '').toString().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      const findHeading = () => {
+        if (agendaHeadingRef && document.contains(agendaHeadingRef)) return agendaHeadingRef;
+        let t = document.getElementById('agenda') || document.querySelector('[name="agenda"], a[href="#agenda"]');
+        if (t) return t.closest('h1,h2,h3,h4,h5,h6') || t;
+        const hs = Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6'));
+        return hs.find(h => /\bagenda\b/.test(norm(h.textContent)) || norm(h.textContent).startsWith('agenda ')) || null;
+      };
+      const agendaH = findHeading();
+      if (agendaH) {
+        // If Agenda uses a different tag (e.g., H3), mirror the tag for exact element-based styles
+        const agendaTag = agendaH.tagName; // e.g., 'H2'
+        if (agendaTag && title.tagName !== agendaTag) {
+          const newTitle = document.createElement(agendaTag.toLowerCase());
+          newTitle.id = `${NS}-title`;
+          newTitle.textContent = 'Momentos';
+          // copy any existing classes we added before
+          title.classList.forEach(cls => { try { newTitle.classList.add(cls); } catch(_){} });
+          title.replaceWith(newTitle);
+          title = newTitle;
+        }
+
+        const cs = getComputedStyle(agendaH);
+        const setImp = (prop, val) => { try { if (val) title.style.setProperty(prop, val, 'important'); } catch(_){} };
+        const props = [
+          'font-family','font-size','font-weight','font-style','font-variation-settings','font-stretch','font','color',
+          'letter-spacing','text-transform','line-height','text-shadow','-webkit-text-stroke-width','-webkit-text-stroke-color',
+          'margin-top','margin-bottom'
+        ];
+        props.forEach(p => setImp(p, cs.getPropertyValue ? cs.getPropertyValue(p) || cs[p.replace(/-([a-z])/g,(m,g)=>g.toUpperCase())] : cs[p.replace(/-([a-z])/g,(m,g)=>g.toUpperCase())]));
+        // Copy Agenda heading classes so it inherits theme styles
+        if (!title.dataset.smAgendaCloned) {
+          agendaH.classList.forEach(cls => { try { title.classList.add(cls); } catch(_){} });
+          title.dataset.smAgendaCloned = '1';
+        }
+      }
+    } catch(_) { /* ignore */ }
+  }
+
+  function fileToDataUrl(file) {
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload = () => res(reader.result);
+      reader.onerror = () => rej(reader.error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  let agendaHeadingRef = null;
+
+  function placePanelAfterAgenda(panel){
+    if (panel.dataset.smPanelInserted) return;
+    const norm = (t) => (t || '').toString().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const findTarget = () => {
+      let t = document.getElementById('agenda') || document.querySelector('[name="agenda"], a[href="#agenda"]');
+      if (t) return t.closest('h1,h2,h3,h4,h5,h6') || t;
+      const headings = Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6'));
+      return headings.find(h => /\bagenda\b/.test(norm(h.textContent)) || norm(h.textContent).startsWith('agenda ')) || null;
+    };
+    const tryInsert = () => {
+      const heading = findTarget();
+      if (heading){
+        agendaHeadingRef = heading; // keep reference for styling copy
+        const section = heading.closest('section') || heading.closest('article') || heading.closest('div') || heading.parentElement;
+        if (section && section.parentElement){
+          section.parentElement.insertBefore(panel, section.nextSibling);
+          panel.dataset.smPanelInserted = '1';
+          // once placed, attempt to mirror heading styles
+          applyAgendaHeadingStyle(panel);
+          return true;
+        }
+      }
+      return false;
+    };
+    if (tryInsert()) return;
+    const footer = document.querySelector('footer');
+    if (footer && footer.parentElement){
+      footer.parentElement.insertBefore(panel, footer);
+      panel.dataset.smPanelInserted = '1';
+      return;
+    }
+    const obs = new MutationObserver(() => { if (tryInsert()) obs.disconnect(); });
+    obs.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => {
+      if (panel.dataset.smPanelInserted) return;
+      document.body.appendChild(panel);
+      panel.dataset.smPanelInserted = '1';
+      obs.disconnect();
+    }, 3000);
+  }
+
+  // Init
+  ready(() => {
+    injectStyles();
+    const built = buildUI();
+    const { panel, headerWrap } = built;
+    placeBannerAboveAgenda(headerWrap);
+    placePanelAfterAgenda(panel);
+    setupHandlers(panel, built);
+    loadInitial(panel);
+    startPolling(panel);

@@ -1,0 +1,17 @@
+{
+  "name": "share-moments-server",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lightweight upload server for ShareMoments",
+  "main": "share-moments-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node share-moments-server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
+

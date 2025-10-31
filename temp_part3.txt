@@ -1,0 +1,6 @@
+    // Apply heading style after insertion and after next frame
+    setTimeout(() => applyAgendaHeadingStyle(panel), 0);
+    requestAnimationFrame(() => applyAgendaHeadingStyle(panel));
+    window.addEventListener('load', () => applyAgendaHeadingStyle(panel), { once: true });
+  });
+})();

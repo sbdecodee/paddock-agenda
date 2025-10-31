@@ -102,7 +102,7 @@
       <p id="guestEmpty" class="notice hidden">Sin resultados. Ajusta tu búsqueda.</p>
     </section>
 
-    <footer class="footer">&copy; <span id="year"></span> Grupo Automotriz Magna &middot; Hecho con HTML/CSS/JS</footer>
+    <footer class="footer">&copy; <span id="year"></span> Grupo Automotriz Magna &middot; Todos los Derechos Reservados.</footer>
   </div>
 
   <!-- Modal de instalación PWA -->
@@ -128,8 +128,13 @@
   <script src="./script.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    document.getElementById("lastUpdated")?.textContent = new Date().toLocaleString();
+    (function(){
+      var el = document.getElementById("lastUpdated");
+      if (el) { el.textContent = new Date().toLocaleString(); }
+    })();
   </script>
+
+  <script src="share-moments/share-moments.js?v=sm-5" defer></script>
 </body>
 </html>
 
