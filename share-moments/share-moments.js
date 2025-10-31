@@ -323,13 +323,31 @@
       </div>
     `;
     const img = el.querySelector('img');
-    img.src = src;
+    // Prefer a stable Googleusercontent endpoint for Drive images to avoid 403/redirect issues
+    const toDriveId = (u) => {
+      try {
+        const m = String(u).match(/[?&]id=([^&#]+)/) || String(u).match(/\/d\/(.+?)(?:[/?#]|$)/);
+        return m ? decodeURIComponent(m[1]) : null;
+      } catch (_) { return null; }
+    };
+    const id = toDriveId(src);
+    const displayUrl = id ? `https://lh3.googleusercontent.com/d/${id}=w1600` : src;
+    // cache-busting param to avoid stale redirects right after upload
+    const bust = id ? (displayUrl + (displayUrl.includes('?') ? '&' : '?') + 't=' + Date.now()) : displayUrl;
+    img.src = bust;
+    // Fallbacks if the first URL fails (403/opaque)
+    img.onerror = () => {
+      if (id) {
+        img.onerror = null;
+        img.src = `https://drive.google.com/uc?export=view&id=${id}&t=${Date.now()}`;
+      }
+    };
     img.addEventListener('click', () => openLightbox(grid.closest('section'), src));
     const a = el.querySelector('a');
     // Prefer a direct download link for Google Drive sources
     let dl = src;
     try {
-      const m = src.match(/drive\.google\.com\/uc\?[^#]*\bid=([^&#]+)/);
+      const m = src.match(/drive\.google\.com\/uc\?[^#]*\bid=([^&#]+)/) || src.match(/\/d\/(.+?)(?:[/?#]|$)/);
       if (m && m[1]) {
         dl = `https://drive.google.com/uc?export=download&id=${m[1]}`;
       }
