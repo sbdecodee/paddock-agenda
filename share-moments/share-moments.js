@@ -260,26 +260,31 @@
 
     // Try server upload first
     try {
-      let res;
       if (IS_APPS_SCRIPT) {
-        // Use simple request (multipart/form-data) to avoid CORS preflight
+        // Simple request + no-cors to bypass CORS checks. Response is opaque, so rely on polling refresh.
         const fd = new FormData();
         fd.append('photo', file, file.name);
-        res = await fetch(`${API_BASE}`, { method: 'POST', body: fd });
+        await fetch(`${API_BASE}`, { method: 'POST', body: fd, mode: 'no-cors' });
+        // Trigger a refresh shortly after upload to pull the new file into the grid
+        setTimeout(() => {
+          const gridNow = panel.querySelector(`#${NS}-grid`);
+          refreshFromServer(gridNow);
+        }, 800);
+        return;
       } else {
         const fd = new FormData();
         fd.append('photo', file, file.name);
         const uploadUrl = `${API_BASE}/upload`;
-        res = await fetch(uploadUrl, { method: 'POST', body: fd });
+        const res = await fetch(uploadUrl, { method: 'POST', body: fd });
+        if (!res.ok) throw new Error('upload failed');
+        const data = await res.json();
+        if (data && data.file) {
+          img.src = data.file; // replace temp with server URL
+          el.dataset.src = data.file;
+          return;
+        }
+        throw new Error('bad response');
       }
-      if (!res.ok) throw new Error('upload failed');
-      const data = await res.json();
-      if (data && data.file) {
-        img.src = data.file; // replace temp with server URL
-        el.dataset.src = data.file;
-        return;
-      }
-      throw new Error('bad response');
     } catch (_) {
       // Fallback to local IndexedDB so user still sees it
       try {
@@ -361,7 +366,7 @@
 
   function startPolling(panel) {
     const grid = panel.querySelector(`#${NS}-grid`);
-    const interval = IS_APPS_SCRIPT ? 3000 : POLL_MS;
+    const interval = IS_APPS_SCRIPT ? 1000 : POLL_MS;
     setInterval(() => { refreshFromServer(grid); }, interval);
   }
 
