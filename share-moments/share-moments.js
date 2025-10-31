@@ -323,36 +323,23 @@
       </div>
     `;
     const img = el.querySelector('img');
-    // Prefer a stable Googleusercontent endpoint for Drive images to avoid 403/redirect issues
-    const toDriveId = (u) => {
-      try {
-        const m = String(u).match(/[?&]id=([^&#]+)/) || String(u).match(/\/d\/(.+?)(?:[/?#]|$)/);
-        return m ? decodeURIComponent(m[1]) : null;
-      } catch (_) { return null; }
-    };
-    const id = toDriveId(src);
-    const displayUrl = id ? `https://lh3.googleusercontent.com/d/${id}=w1600` : src;
+    // Helpers to build robust URLs for Drive images
+    const driveId = extractDriveId(src);
+    const displayUrl = driveDisplayUrl(src, 1600);
     // cache-busting param to avoid stale redirects right after upload
-    const bust = id ? (displayUrl + (displayUrl.includes('?') ? '&' : '?') + 't=' + Date.now()) : displayUrl;
+    const bust = (displayUrl.includes('?') ? displayUrl + '&' : displayUrl + '?') + 't=' + Date.now();
     img.src = bust;
-    // Fallbacks if the first URL fails (403/opaque)
+    // Fallback if first URL fails (403/opaque)
     img.onerror = () => {
-      if (id) {
+      if (driveId) {
         img.onerror = null;
-        img.src = `https://drive.google.com/uc?export=view&id=${id}&t=${Date.now()}`;
+        img.src = driveViewUrl(driveId) + (driveViewUrl(driveId).includes('?') ? '&' : '?') + 't=' + Date.now();
       }
     };
     img.addEventListener('click', () => openLightbox(grid.closest('section'), src));
     const a = el.querySelector('a');
     // Prefer a direct download link for Google Drive sources
-    let dl = src;
-    try {
-      const m = src.match(/drive\.google\.com\/uc\?[^#]*\bid=([^&#]+)/) || src.match(/\/d\/(.+?)(?:[/?#]|$)/);
-      if (m && m[1]) {
-        dl = `https://drive.google.com/uc?export=download&id=${m[1]}`;
-      }
-    } catch (_) { /* ignore */ }
-    a.href = dl;
+    a.href = driveDownloadUrl(src);
     a.download = name || '';
     if (!downloadable) a.setAttribute('tabindex', '-1');
     grid.prepend(el);
@@ -362,7 +349,8 @@
   function openLightbox(panel, src) {
     const lb = panel.querySelector(`.${NS}-lightbox`);
     const img = lb.querySelector('img');
-    img.src = src;
+    const big = driveDisplayUrl(src, 2400);
+    img.src = (big.includes('?') ? big + '&' : big + '?') + 't=' + Date.now();
     lb.classList.add('open');
   }
 
@@ -378,16 +366,45 @@
     }
   }
 
+  // Build Drive helper functions once
+  function extractDriveId(u) {
+    try {
+      const s = String(u);
+      const m = s.match(/[?&]id=([^&#]+)/) || s.match(/\/(?:d|file)\/([^/?#]+)(?:[/?#]|$)/);
+      return m ? decodeURIComponent(m[1]) : null;
+    } catch (_) { return null; }
+  }
+  function driveDisplayUrl(src, maxW) {
+    const id = extractDriveId(src);
+    if (!id) return src;
+    const w = maxW || 1600;
+    return `https://lh3.googleusercontent.com/d/${id}=w${w}`;
+  }
+  function driveViewUrl(id) { return `https://drive.google.com/uc?export=view&id=${id}`; }
+  function driveDownloadUrl(src) {
+    const id = extractDriveId(src);
+    return id ? `https://drive.google.com/uc?export=download&id=${id}` : src;
+  }
+
   async function refreshFromServer(grid) {
     try {
       const res = await fetch(`${API_BASE}`);
       if (!res.ok) throw new Error('list failed');
       const data = await res.json();
       if (!data || !Array.isArray(data.files)) throw new Error('bad response');
-      // Clear and repopulate from server list
-      grid.innerHTML = '';
-      for (const path of data.files) {
-        addToGrid(grid, { src: path, downloadable: true, name: path.split('/').pop() });
+      // Diffing to avoid flicker: add missing, remove stale, keep existing
+      const incoming = data.files;
+      const wanted = new Set(incoming);
+      // Remove items not present anymore
+      grid.querySelectorAll(`.${NS}-item`).forEach(node => {
+        const s = node.dataset.src;
+        if (!wanted.has(s)) node.remove();
+      });
+      // Add new items (newest first)
+      for (const path of incoming) {
+        if (!grid.querySelector(`.${NS}-item[data-src="${CSS.escape(path)}"]`)) {
+          addToGrid(grid, { src: path, downloadable: true, name: path.split('/').pop() });
+        }
       }
       return true;
     } catch (_) {
