@@ -260,11 +260,21 @@
 
     // Try server upload first
     try {
-      const fd = new FormData();
-      fd.append('photo', file, file.name);
-      // Apps Script expects POST to the base endpoint (no /upload)
-      const uploadUrl = IS_APPS_SCRIPT ? `${API_BASE}` : `${API_BASE}/upload`;
-      const res = await fetch(uploadUrl, { method: 'POST', body: fd, mode: 'cors' });
+      let res;
+      if (IS_APPS_SCRIPT) {
+        // Send JSON with dataUrl to avoid multipart parsing issues
+        const dataUrl = await fileToDataUrl(file);
+        res = await fetch(`${API_BASE}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: file.name, mimeType: file.type || 'image/jpeg', dataUrl })
+        });
+      } else {
+        const fd = new FormData();
+        fd.append('photo', file, file.name);
+        const uploadUrl = `${API_BASE}/upload`;
+        res = await fetch(uploadUrl, { method: 'POST', body: fd, mode: 'cors' });
+      }
       if (!res.ok) throw new Error('upload failed');
       const data = await res.json();
       if (data && data.file) {
