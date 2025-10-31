@@ -1078,6 +1078,37 @@ function setupMastheadSlider(){
   }catch{}
 }
 
+// PWA: manejo del prompt de instalación (Android/Chrome) y ayuda para iOS
+(()=>{
+  try{
+    const installBtn = document.getElementById('installBtn');
+    let deferredPrompt = null;
+
+    // Mostrar el botón cuando la app es instalable
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn?.classList.remove('hidden');
+    });
+
+    // Ocultar si ya está en modo standalone
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if(isStandalone){ installBtn?.classList.add('hidden'); }
+
+    installBtn?.addEventListener('click', async () => {
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        try{ await deferredPrompt.userChoice; }catch{}
+        deferredPrompt = null;
+        installBtn?.classList.add('hidden');
+      }else if(/iPad|iPhone|iPod/i.test(navigator.userAgent)){
+        // iOS no muestra beforeinstallprompt: guiar al usuario
+        alert('En iPhone/iPad: toca Compartir y luego "Añadir a pantalla de inicio".');
+      }
+    });
+  }catch{}
+})();
+
 
 // Override: mejorar experiencia de swipe/drag del slider en mvil
 // Deja que el navegador maneje el scroll con inercia en touch;

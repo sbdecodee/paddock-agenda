@@ -6,6 +6,10 @@
   <title>Grupo Automotriz Magna · Agenda</title>
   <meta name="description" content="Agenda e invitados del evento de Grupo Automotriz Magna."/>
   <meta name="robots" content="noindex,nofollow"/>
+  <meta name="theme-color" content="#b00020"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Magna Agenda"/>
 
   <!-- Tipografía -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +17,8 @@
 
   <!-- Icono y estilos -->
   <link rel="icon" href="./assets/logo.svg" type="image/svg+xml"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./styles.css"/>
 
   <!-- Ocultar UI en impresión -->
@@ -28,6 +34,7 @@
         <div class="header-text">
           <div class="hello" id="hello"></div>
         </div>
+        <button id="installBtn" class="btn hidden" style="margin-left:auto">Instalar</button>
       </header>
 
       <div class="notice on-masthead">
@@ -98,6 +105,13 @@
     <footer class="footer">&copy; <span id="year"></span> Grupo Automotriz Magna &middot; Hecho con HTML/CSS/JS</footer>
   </div>
 
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(console.error);
+      });
+    }
+  </script>
   <script src="./script.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
