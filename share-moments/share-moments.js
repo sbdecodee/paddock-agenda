@@ -261,15 +261,28 @@
     // Try server upload first
     try {
       if (IS_APPS_SCRIPT) {
-        // Simple request + no-cors to bypass CORS checks. Response is opaque, so rely on polling refresh.
-        const fd = new FormData();
-        fd.append('photo', file, file.name);
-        await fetch(`${API_BASE}`, { method: 'POST', body: fd, mode: 'no-cors' });
-        // Trigger a refresh shortly after upload to pull the new file into the grid
+        // Enviar JSON como text/plain para evitar preflight CORS y poder leer respuesta
+        const dataUrl = await fileToDataUrl(file);
+        const res = await fetch(`${API_BASE}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: JSON.stringify({ name: file.name, mimeType: file.type || 'image/jpeg', dataUrl })
+        });
+        if (res && res.ok) {
+          try {
+            const j = await res.json();
+            if (j && j.file) {
+              img.src = j.file;
+              el.dataset.src = j.file;
+              return;
+            }
+          } catch (_) { /* fallback refresh */ }
+        }
+        // Refrescar por si la respuesta no fue legible
         setTimeout(() => {
           const gridNow = panel.querySelector(`#${NS}-grid`);
-          refreshFromServer(gridNow);
-        }, 800);
+          refreshFromServerSafe(gridNow);
+        }, 1500);
         return;
       } else {
         const fd = new FormData();
@@ -364,10 +377,18 @@
     }
   }
 
+  // Avoid overlapping refresh to reduce 429s
+  let SM_REFRESH_INFLIGHT = false;
+  function refreshFromServerSafe(grid) {
+    if (SM_REFRESH_INFLIGHT) return Promise.resolve(false);
+    SM_REFRESH_INFLIGHT = true;
+    return refreshFromServer(grid).finally(() => { SM_REFRESH_INFLIGHT = false; });
+  }
+
   function startPolling(panel) {
     const grid = panel.querySelector(`#${NS}-grid`);
-    const interval = IS_APPS_SCRIPT ? 1000 : POLL_MS;
-    setInterval(() => { refreshFromServer(grid); }, interval);
+    const interval = IS_APPS_SCRIPT ? 3000 : POLL_MS;
+    setInterval(() => { refreshFromServerSafe(grid); }, interval);
   }
 
   function connectStream(panel) {
