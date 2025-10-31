@@ -1078,33 +1078,57 @@ function setupMastheadSlider(){
   }catch{}
 }
 
-// PWA: manejo del prompt de instalación (Android/Chrome) y ayuda para iOS
+// PWA: modal centrado con blur para instalar
 (()=>{
   try{
-    const installBtn = document.getElementById('installBtn');
+    const installBtn = document.getElementById('installBtn'); // fallback manual
+    const overlay = document.getElementById('installOverlay');
+    const confirmBtn = document.getElementById('installConfirm');
+    const dismissBtn = document.getElementById('installDismiss');
+    const DISMISS_KEY = 'pwa_install_dismissed_v1';
     let deferredPrompt = null;
 
-    // Mostrar el botón cuando la app es instalable
+    const hideOverlay = ()=> overlay?.classList.add('hidden');
+    const showOverlay = ()=> overlay?.classList.remove('hidden');
+
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if(isStandalone){ hideOverlay(); installBtn?.classList.add('hidden'); return; }
+
     window.addEventListener('beforeinstallprompt', (e) => {
+      if(localStorage.getItem(DISMISS_KEY)) return; // no insistir
       e.preventDefault();
       deferredPrompt = e;
-      installBtn?.classList.remove('hidden');
+      if(overlay){ showOverlay(); }
+      else { installBtn?.classList.remove('hidden'); }
     });
 
-    // Ocultar si ya está en modo standalone
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if(isStandalone){ installBtn?.classList.add('hidden'); }
+    // iOS: no hay evento. Muestra guía si no se ha descartado.
+    if(IS_IOS && !localStorage.getItem(DISMISS_KEY)){
+      showOverlay();
+    }
 
-    installBtn?.addEventListener('click', async () => {
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        try{ await deferredPrompt.userChoice; }catch{}
-        deferredPrompt = null;
-        installBtn?.classList.add('hidden');
-      }else if(/iPad|iPhone|iPod/i.test(navigator.userAgent)){
-        // iOS no muestra beforeinstallprompt: guiar al usuario
+    installBtn?.addEventListener('click', () => {
+      if(overlay){ showOverlay(); }
+    });
+
+    confirmBtn?.addEventListener('click', async () => {
+      if(!deferredPrompt){
+        // En iOS no hay evento; mostrar guía rápida
         alert('En iPhone/iPad: toca Compartir y luego "Añadir a pantalla de inicio".');
+        hideOverlay();
+        return;
       }
+      deferredPrompt.prompt();
+      try{ await deferredPrompt.userChoice; }catch{}
+      deferredPrompt = null;
+      hideOverlay();
+      installBtn?.classList.add('hidden');
+    });
+
+    dismissBtn?.addEventListener('click', () => {
+      localStorage.setItem(DISMISS_KEY, String(Date.now()));
+      hideOverlay();
     });
   }catch{}
 })();
