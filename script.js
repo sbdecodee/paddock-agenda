@@ -1081,18 +1081,24 @@ function setupMastheadSlider(){
 // PWA: modal centrado con blur para instalar
 (()=>{
   try{
-    const installBtn = document.getElementById('installBtn'); // fallback manual
-    const overlay = document.getElementById('installOverlay');
-    const confirmBtn = document.getElementById('installConfirm');
-    const dismissBtn = document.getElementById('installDismiss');
+    const installBtn   = document.getElementById('installBtn'); // fallback manual
+    const overlay      = document.getElementById('installOverlay');
+    const confirmBtn   = document.getElementById('installConfirm');
+    const dismissBtn   = document.getElementById('installDismiss');
+    const subEl        = document.getElementById('installSub');
+    const hintEl       = document.getElementById('installHint');
     const DISMISS_KEY = 'pwa_install_dismissed_v1';
     let deferredPrompt = null;
 
     const hideOverlay = ()=> overlay?.classList.add('hidden');
     const showOverlay = ()=> overlay?.classList.remove('hidden');
 
+    const UA = navigator.userAgent || '';
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const IS_IOS = /iPad|iPhone|iPod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const IS_CHROMIUM_IOS = /CriOS/i.test(UA);
+    const IS_FIREFOX_IOS  = /FxiOS/i.test(UA);
+    const IS_SAFARI       = /Safari/i.test(UA) && !IS_CHROMIUM_IOS && !IS_FIREFOX_IOS;
     if(isStandalone){ hideOverlay(); installBtn?.classList.add('hidden'); return; }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -1105,18 +1111,51 @@ function setupMastheadSlider(){
 
     // iOS: no hay evento. Muestra guía si no se ha descartado.
     if(IS_IOS && !localStorage.getItem(DISMISS_KEY)){
+      // Ajusta el contenido para iOS antes de mostrar
+      confirmBtn && (confirmBtn.textContent = 'Ver cómo');
+      if(!IS_SAFARI){
+        subEl && (subEl.textContent = 'Para instalar en iPhone/iPad, abre este sitio en Safari.');
+        hintEl && (hintEl.textContent = 'En Safari: toca Compartir y luego “Añadir a pantalla de inicio”.');
+      }else{
+        subEl && (subEl.textContent = 'Sigue estos pasos para añadirlo a tu pantalla de inicio.');
+        hintEl && (hintEl.textContent = 'Toca Compartir (cuadro con flecha) y luego “Añadir a pantalla de inicio”.');
+      }
+      hintEl?.classList.remove('hidden');
       showOverlay();
     }
 
     installBtn?.addEventListener('click', () => {
-      if(overlay){ showOverlay(); }
+      if(overlay){
+        // Ajustar copy según plataforma antes de mostrar
+        if(IS_IOS){
+          confirmBtn.textContent = 'Ver cómo';
+          if(!IS_SAFARI){
+            subEl && (subEl.textContent = 'Para instalar en iPhone/iPad, abre este sitio en Safari.');
+            hintEl && (hintEl.textContent = 'En Safari: toca Compartir y luego “Añadir a pantalla de inicio”.');
+            hintEl?.classList.remove('hidden');
+          }else{
+            subEl && (subEl.textContent = 'Sigue estos pasos para añadirlo a tu pantalla de inicio.');
+            hintEl && (hintEl.textContent = 'Toca Compartir (cuadro con flecha) y luego “Añadir a pantalla de inicio”.');
+            hintEl?.classList.remove('hidden');
+          }
+        }
+        showOverlay();
+      }
     });
 
     confirmBtn?.addEventListener('click', async () => {
       if(!deferredPrompt){
-        // En iOS no hay evento; mostrar guía rápida
-        alert('En iPhone/iPad: toca Compartir y luego "Añadir a pantalla de inicio".');
-        hideOverlay();
+        // iOS: reforzar instrucciones dentro del modal sin cerrarlo
+        if(IS_IOS){
+          confirmBtn.textContent = 'Listo';
+          if(!IS_SAFARI){
+            subEl && (subEl.textContent = 'Abre este sitio en Safari para poder instalarlo.');
+          }else{
+            subEl && (subEl.textContent = '1) Toca Compartir  2) “Añadir a pantalla de inicio”.');
+          }
+          hintEl?.classList.remove('hidden');
+          return;
+        }
         return;
       }
       deferredPrompt.prompt();
